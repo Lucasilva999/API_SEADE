@@ -1,0 +1,16 @@
+<h1 class="text-center mt-3 mb-5">Informações Registradas
+    <a class="btn btn-primary btn-sm" href="/admin" role="button">
+        <i class="fas fa-arrow-left"></i>  Voltar
+    </a>
+</h1>
+
+<ul class="list-group"></ul>
+{{#each registros}}
+    <li class="list-group-item">
+        <p><strong>OE: </strong> {{oe}}</p>
+        <p><strong>Indicador: </strong> {{indicador}}</p>
+        <p><strong>Dado: </strong> {{dado}}</p>
+        <p><strong>Período: </strong> {{periodo}}</p>
+    </li>
+{{/each}}
+</ul>

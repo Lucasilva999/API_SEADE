@@ -1,0 +1,38 @@
+<h1 class="text-center mt-3 mb-4">Cadastrar Informações</h1>
+<hr class="mb-5">
+
+<form method="POST" action="/admin/cadastro">
+    <div class="form-group row">
+        <label for="oe" class="col-sm-2 col-form-label-lg">OE:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="oe" name="oe" placeholder="">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="periodo" class="col-sm-2 col-form-label-lg">Período:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="periodo" name="periodo" placeholder="">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="dado" class="col-sm-2 col-form-label-lg">Dado:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="dado" name="dado" placeholder="">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="fonte" class="col-sm-2 col-form-label-lg">Fonte:</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="fotne" name="fonte" placeholder="">
+        </div>
+    </div>
+    <div class="form-group row mb-4">
+        <label for="" class="col-sm-2 col-form-label-lg">Indicador:</label>
+        <div class="col-sm-8">
+            <textarea class="form-control" id="indicador" name="indicador" placeholder="" rows="3" cols="30"
+            style="resize:none"></textarea>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+    <a class="btn btn-secondary" href="/admin" role="button">Voltar</a>
+</form>
