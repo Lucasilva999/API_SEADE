@@ -15,9 +15,7 @@ router.get('/cadastro', (req, res)=> {
 //Página para visualização de informações cadastradas
 router.get('/registros', async (req, res)=> {
     try{
-        const registros = await Registro.find({}).sort({oe: "asc"}).then(registros => {
-            res.render('registros.handlebars', {registros});
-        })
+        
  
     }catch(err) {
         res.send(`<p>Erro: ${err}</p>`);
@@ -30,8 +28,7 @@ router.post('/cadastro', async (req, res)=> {
     let { oe, periodo, dado, fonte, indicador } = req.body;
     
     try {
-        await Registro.create({ oe, periodo, dado, fonte, indicador });
-        res.render('cadastro.handlebars');
+        
 
     }catch(err) {
         res.send(`<p>Erro: ${err}</p>`);
