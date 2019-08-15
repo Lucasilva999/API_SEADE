@@ -14,6 +14,17 @@ router.get('/', async (req, res)=> {
     }
 })
 
+//Rota para deletar registros
+router.get('/delete/:id', async (req, res) => {
+    try{
+        await Registro.deleteOne({"_id": req.params.id});
+        res.redirect('/admin/registros');
+        
+    }catch(err){
+        console.log(`Erro ao deletar registro: ${err}`);
+    }
+})
+
 //Mostrando registros listados por OE
 router.get('/:oe', async (req, res)=> {
     let oe = req.params.oe;
@@ -29,6 +40,7 @@ router.get('/:oe/:periodo', async (req, res)=> {
     let json = preparaJSON(data);
     res.send({indicadores: json});
 })
+
 
 //Função que prepara o JSON no formato para ser enviado
 function preparaJSON(data) {

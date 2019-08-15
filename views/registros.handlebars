@@ -8,7 +8,12 @@
 {{#each registros}}
     <div class="card text-white bg-primary mb-3 d-inline-block mx-2
     " style="max-width: 18rem;">
-        <div class="card-header">{{indicador}}</div>
+        <div class="card-header">
+                <a href="/api/delete/{{_id}}" role="button">
+                    <i class="fas fa-times float-right ml-2 hover text-white"></i>
+                </a>
+            {{indicador}}
+        </div>
         <div class="card-body">
             <h5 class="card-title">Informações:</h5>
             <p class="card-text">OE: {{oe}}</p>
@@ -18,4 +23,10 @@
     </div>
 {{/each}}
 </div>
+
+<style>
+    .hover:hover {
+        cursor: pointer;
+    }
+</style>
 
