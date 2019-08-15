@@ -1,6 +1,7 @@
 //Importanto Express Router e Model Registro
 const router = require('express').Router();
 const Registro = require('../models/Registro');
+const Periodo = require('../models/Periodo');
 
 //Rota geral Admin
 router.get('/', (req, res)=> {
@@ -27,15 +28,51 @@ router.get('/registros', async (req, res)=> {
 
 //Rota POST que insere as informações no BD
 router.post('/cadastro', async (req, res)=> {
-    let { oe, periodo, dado, fonte, indicador } = req.body;
+    let { oe_num, periodo, dado, fonte, indicador } = req.body;
+    console.log('OE num:' + oe_num)
+    let oe =  defineOE(oe_num);
     
+
     try {
-        await Registro.create({ oe, periodo, dado, fonte, indicador });
+        let periodos = await Periodo.create({periodo, dado});
+        await Registro.create({ oe_num, oe, indicador, fonte, periodos });
         res.render('cadastro.handlebars');
 
     }catch(err) {
         res.send(`<p>Erro: ${err}</p>`);
     }
 })
+
+//Define o campo OE com base no valor de oe_num recebido no formulário
+function defineOE(oe_num) {
+    let oe = '';
+    switch (oe_num) {
+        case 1:
+            oe = 'Educação de qualidade, iclusiva e transformadora, buscando o desenvolvimento pleno';
+            break;
+        case 2: 
+            oe = 'Saúde pública integrada, com modernas tecnologias e amplo acesso';
+            break;
+        case 3:
+            oe = 'Segurança para a sociedade usando ferramentas de inteligência no combate à criminalidade';
+            break;
+        case 4:
+            oe = 'Desenvolvimento econômico promovendo o investimento, a inovação, o turismo e a economia criativa';
+            break;
+        case 5:
+            oe = 'Desenvolvimento social garantindo os direitos individuais e coletivos e promovendo a autonomia plena';
+            break;
+        case 6: 
+            oe = 'Qualidade de vida urbana, com moradia adequada e mobilidade';
+            break;
+        case 8: 
+            oe = 'Desenvolvimento sustentável preservando o meio ambiente e protegendo a população frente aos desastres naturais';
+            break;
+        default: 
+            oe = 'Não funfou';
+            break;
+    }
+    return oe;
+}
 
 module.exports = router;

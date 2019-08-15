@@ -18,16 +18,11 @@ const RegistroSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    periodos: [{
-        ano: {
-            type: Number,
-            required: true
-        },
-        dado: {
-            type: Number,
-            required: true
-        }
-    }]
+    periodos: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'periodo',
+        required: true
+    }
 })
 
 module.exports = mongoose.model('registro', RegistroSchema);
