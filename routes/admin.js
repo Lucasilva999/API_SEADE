@@ -1,7 +1,7 @@
 //Importanto Express Router e Model Registro
 const router = require('express').Router();
 const Registro = require('../models/Registro');
-const Periodo = require('../models/Periodo');
+const Variavel = require('../models/Variavel');
 
 //Rota geral Admin
 router.get('/', (req, res)=> {
@@ -28,7 +28,7 @@ router.get('/registros', async (req, res)=> {
 
 //Rota POST que insere as informações no BD
 router.post('/cadastro', async (req, res)=> {
-    let { oe_num, periodo, dado, fonte, indicador } = req.body;
+    let { oe_num, ano, valor, fonte, indicador } = req.body;
     let oe =  defineOE(oe_num);
     
 
@@ -37,16 +37,16 @@ router.post('/cadastro', async (req, res)=> {
         if(find[0]) {
             //Caso OE já esteja cadastrado
             console.log('Já cadastrado');
-            /*let periodos = await Periodo.create({periodo, dado});
-            Registro.findOneAndUpdate({oe_num}, {$push: periodos._id});
+            let variaveis = await Variavel.create({oe_origem: oe_num, indicador, fonte, periodo:{ano, valor}});
+            await Registro.findOneAndUpdate({oe_num}, {$push: {variaveis}}, {new: true});
+            //Registro.findOneAndUpdate({oe_num}, {oe: "HAHAHAHAH"});
             res.render('cadastro.handlebars');
-            console.log(periodos);*/
         }else {
             //Caso OE ainda não tenha sido cadastrado
             console.log('Não cadastrado');
-            /*let periodos = await Periodo.create({periodo, dado});
-            await Registro.create({ oe_num, oe, indicador, fonte, periodos });
-            res.render('cadastro.handlebars');*/
+            let variaveis = await Variavel.create({oe_origem: oe_num, indicador, fonte, periodo:{ano, valor}});
+            await Registro.create({ oe_num, oe, variaveis });
+            res.render('cadastro.handlebars');
         }
 
     }catch(err) {

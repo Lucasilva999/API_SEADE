@@ -1,7 +1,7 @@
 //Importanto Express Router e Model Registro
 const router = require('express').Router();
 const Registro = require('../models/Registro');
-const Periodo = require('../models/Periodo');
+const Variavel = require('../models/Variavel');
 
 //Monstrando todos os registros
 router.get('/', async (req, res)=> {

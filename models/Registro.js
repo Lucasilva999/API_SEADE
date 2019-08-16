@@ -10,17 +10,9 @@ const RegistroSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    indicador: {
-        type: String,
-        required: true
-    },
-    fonte: {
-        type: String,
-        required: true
-    },
-    periodos: [{
+    variaveis: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'periodo',
+        ref: 'variavel',
         required: true
     }]
 })
