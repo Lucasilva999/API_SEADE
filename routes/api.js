@@ -5,10 +5,20 @@ const Variavel = require('../models/Variavel');
 
 //Monstrando todos os registros
 router.get('/', async (req, res)=> {
-    const data = await Registro.find({}).sort({oe_num: 'asc'});
+    const dataRegistro = await Registro.find({}).sort({oe_num: 'asc'});
+    const dataVariavel = await Variavel.find({}).sort({oe_origem: 'asc'});
     try {
-        let json = preparaJSON(data);
-        res.send({indicadores: json});
+        //Formatando a exibição de Registros
+        let registros = preparaRegistros(dataRegistro);
+        //Inserindo as Variáveis corretas em cada Registro para a exibição
+        dataVariavel.forEach(variavel => {
+            registros.forEach(registro => {
+                if(variavel.oe_origem == registro.oe_num) {
+                    registro.variaveis.push(variavel);
+                }
+            })
+        }); 
+        res.send({indicadores: registros});
 
     }catch(err) {
         console.log(`Erro: ${err}`);
@@ -25,7 +35,7 @@ router.get('/delete/:id', async (req, res) => {
         registro.variaveis.forEach(async variavel => {
             await Variavel.deleteOne({"_id": variavel});
         })
-        
+
         res.redirect('/admin/registros');
         
     }catch(err){
@@ -51,32 +61,18 @@ router.get('/:oe/:periodo', async (req, res)=> {
 
 
 //Função que prepara o JSON no formato para ser enviado
-async function preparaJSON(data) {
-    /*
+function preparaRegistros(data) {
     let array = [];
-        const promises = await data.forEach(indicador => {
-            let json = {
-                oe_num: indicador.oe_num,
-                oe: indicador.oe,
-                variaveis: [
-                
-                ]
-            }
-            let atribuiVariaveis = async function() {
-                let varArray = [];
-                for(let i = 0; i < indicador.variaveis.length; i++) {
-                    let item = await Variavel.findOne({"_id": indicador.variaveis[i]});
-                    varArray.push(item);
-                }
-                //console.log(varArray);
-                return varArray;
-            }
-
-            json.variaveis = atribuiVariaveis();
-            array.push(json);  
+    data.forEach(indicador => {
+        let json = {
+            oe_num: indicador.oe_num,
+            oe: indicador.oe,
+            variaveis: []
+        }
+        array.push(json);
+        
     })
-    await Promise.all(promises);
-    return array; */
+    return array;
 }
 
 module.exports = router;
