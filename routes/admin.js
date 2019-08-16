@@ -36,14 +36,11 @@ router.post('/cadastro', async (req, res)=> {
         let find = await Registro.find({oe_num});
         if(find[0]) {
             //Caso OE já esteja cadastrado
-            console.log('Já cadastrado');
             let variaveis = await Variavel.create({oe_origem: oe_num, indicador, fonte, periodo:{ano, valor}});
             await Registro.findOneAndUpdate({oe_num}, {$push: {variaveis}}, {new: true});
-            //Registro.findOneAndUpdate({oe_num}, {oe: "HAHAHAHAH"});
             res.render('cadastro.handlebars');
         }else {
             //Caso OE ainda não tenha sido cadastrado
-            console.log('Não cadastrado');
             let variaveis = await Variavel.create({oe_origem: oe_num, indicador, fonte, periodo:{ano, valor}});
             await Registro.create({ oe_num, oe, variaveis });
             res.render('cadastro.handlebars');
