@@ -33,9 +33,21 @@ router.post('/cadastro', async (req, res)=> {
     
 
     try {
-        let periodos = await Periodo.create({periodo, dado});
-        await Registro.create({ oe_num, oe, indicador, fonte, periodos });
-        res.render('cadastro.handlebars');
+        let find = await Registro.find({oe_num});
+        if(find[0]) {
+            //Caso OE já esteja cadastrado
+            console.log('Já cadastrado');
+            /*let periodos = await Periodo.create({periodo, dado});
+            Registro.findOneAndUpdate({oe_num}, {$push: periodos._id});
+            res.render('cadastro.handlebars');
+            console.log(periodos);*/
+        }else {
+            //Caso OE ainda não tenha sido cadastrado
+            console.log('Não cadastrado');
+            /*let periodos = await Periodo.create({periodo, dado});
+            await Registro.create({ oe_num, oe, indicador, fonte, periodos });
+            res.render('cadastro.handlebars');*/
+        }
 
     }catch(err) {
         res.send(`<p>Erro: ${err}</p>`);
@@ -47,7 +59,7 @@ function defineOE(oe_num) {
     let oe = '';
     switch (oe_num) {
         case '1':
-            oe = 'Educação de qualidade, iclusiva e transformadora, buscando o desenvolvimento pleno';
+            oe = 'Educação de qualidade, inclusiva e transformadora, buscando o desenvolvimento pleno';
             break;
         case '2': 
             oe = 'Saúde pública integrada, com modernas tecnologias e amplo acesso';
@@ -66,9 +78,6 @@ function defineOE(oe_num) {
             break;
         case '8': 
             oe = 'Desenvolvimento sustentável preservando o meio ambiente e protegendo a população frente aos desastres naturais';
-            break;
-        default: 
-            oe = 'Não funfou';
             break;
     }
     return oe;

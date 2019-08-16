@@ -5,7 +5,7 @@ const Periodo = require('../models/Periodo');
 
 //Monstrando todos os registros
 router.get('/', async (req, res)=> {
-    const data = await Registro.find({});
+    const data = await Registro.find({}).sort({oe_num: 'asc'});
     try {
         let json = preparaJSON(data);
         res.send({indicadores: json});
@@ -50,6 +50,7 @@ function preparaJSON(data) {
     let array = [];
         data.forEach(indicador => {
             let json = {
+                oe_num: indicador.oe_num,
                 oe: indicador.oe,
                 nome: indicador.indicador,
                 fonte: indicador.fonte,
