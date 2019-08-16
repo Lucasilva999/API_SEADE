@@ -18,9 +18,14 @@ router.get('/', async (req, res)=> {
 //Rota para deletar registros
 router.get('/delete/:id', async (req, res) => {
     try{
+        //Exclui o Registro do BD
         const registro = await Registro.findOne({"_id": req.params.id});
         await Registro.deleteOne({"_id": req.params.id});
-        await Periodo.deleteOne({"_id": registro.periodos});
+        //Exclui cada uma da Variaveis atribuídas a esse Registro
+        registro.variaveis.forEach(async variavel => {
+            await Variavel.deleteOne({"_id": variavel});
+        })
+        
         res.redirect('/admin/registros');
         
     }catch(err){
@@ -46,22 +51,32 @@ router.get('/:oe/:periodo', async (req, res)=> {
 
 
 //Função que prepara o JSON no formato para ser enviado
-function preparaJSON(data) {
+async function preparaJSON(data) {
+    /*
     let array = [];
-        data.forEach(indicador => {
+        const promises = await data.forEach(indicador => {
             let json = {
                 oe_num: indicador.oe_num,
                 oe: indicador.oe,
-                nome: indicador.indicador,
-                fonte: indicador.fonte,
-                periodos: {
-                    ano: indicador.periodo,
-                    valor: indicador.dado
-                }
+                variaveis: [
+                
+                ]
             }
+            let atribuiVariaveis = async function() {
+                let varArray = [];
+                for(let i = 0; i < indicador.variaveis.length; i++) {
+                    let item = await Variavel.findOne({"_id": indicador.variaveis[i]});
+                    varArray.push(item);
+                }
+                //console.log(varArray);
+                return varArray;
+            }
+
+            json.variaveis = atribuiVariaveis();
             array.push(json);  
     })
-    return array;
+    await Promise.all(promises);
+    return array; */
 }
 
 module.exports = router;
