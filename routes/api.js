@@ -1,6 +1,7 @@
 //Importanto Express Router e Model Registro
 const router = require('express').Router();
 const Registro = require('../models/Registro');
+const Periodo = require('../models/Periodo');
 
 //Monstrando todos os registros
 router.get('/', async (req, res)=> {
@@ -17,7 +18,9 @@ router.get('/', async (req, res)=> {
 //Rota para deletar registros
 router.get('/delete/:id', async (req, res) => {
     try{
+        const registro = await Registro.findOne({"_id": req.params.id});
         await Registro.deleteOne({"_id": req.params.id});
+        await Periodo.deleteOne({"_id": registro.periodos});
         res.redirect('/admin/registros');
         
     }catch(err){

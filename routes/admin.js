@@ -29,7 +29,6 @@ router.get('/registros', async (req, res)=> {
 //Rota POST que insere as informações no BD
 router.post('/cadastro', async (req, res)=> {
     let { oe_num, periodo, dado, fonte, indicador } = req.body;
-    console.log('OE num:' + oe_num)
     let oe =  defineOE(oe_num);
     
 
@@ -47,25 +46,25 @@ router.post('/cadastro', async (req, res)=> {
 function defineOE(oe_num) {
     let oe = '';
     switch (oe_num) {
-        case 1:
+        case '1':
             oe = 'Educação de qualidade, iclusiva e transformadora, buscando o desenvolvimento pleno';
             break;
-        case 2: 
+        case '2': 
             oe = 'Saúde pública integrada, com modernas tecnologias e amplo acesso';
             break;
-        case 3:
+        case '3':
             oe = 'Segurança para a sociedade usando ferramentas de inteligência no combate à criminalidade';
             break;
-        case 4:
+        case '4':
             oe = 'Desenvolvimento econômico promovendo o investimento, a inovação, o turismo e a economia criativa';
             break;
-        case 5:
+        case '5':
             oe = 'Desenvolvimento social garantindo os direitos individuais e coletivos e promovendo a autonomia plena';
             break;
-        case 6: 
+        case '6': 
             oe = 'Qualidade de vida urbana, com moradia adequada e mobilidade';
             break;
-        case 8: 
+        case '8': 
             oe = 'Desenvolvimento sustentável preservando o meio ambiente e protegendo a população frente aos desastres naturais';
             break;
         default: 
