@@ -1,18 +1,35 @@
-<h1 class="text-center mt-3 mb-4">Cadastrar Informações</h1>
-<hr class="mb-5">
+<h1 class="text-center mt-3 mb-5">Cadastrar Informações</h1>
+
+<button type="button" class="btn btn-info" type="button"
+ data-toggle="collapse" data-target="#collapseList">
+    Informações sobre Objetivos Estratégicos
+</button>
+
+<div class="collapse" id="collapseList">
+    <ul class="list-group mt-3 mb-5">
+        <li class="list-group-item list-group-item-light"><strong>1</strong> - Educação de qualidade, inclusiva e transformadora, buscando o desenvolvimento pleno</li>
+        <li class="list-group-item list-group-item-info"><strong>2</strong> - Saúde pública integrada, com modernas tecnologias e amplo acesso</li>
+        <li class="list-group-item list-group-item-light"><strong>3</strong> - Segurança para a sociedade usando ferramentas de inteligência no combate à criminalidade</li>
+        <li class="list-group-item list-group-item-info"><strong>4</strong> - Desenvolvimento econômico promovendo o investimento, a inovação, o turismo e a economia criativa</li>
+        <li class="list-group-item list-group-item-light"><strong>5</strong> - Desenvolvimento social garantindo os direitos individuais e coletivos e promovendo a autonomia plena</li>
+        <li class="list-group-item list-group-item-info"><strong>6</strong> - Qualidade de vida urbana, com moradia adequada e mobilidade</li>
+        <li class="list-group-item list-group-item-light"><strong>8</strong> - Desenvolvimento sustentável preservando o meio ambiente e protegendo a população frente aos desastres naturais</li>
+    </ul>
+</div>
+
 
 <form method="POST" action="/admin/cadastro">
-    <div class="form-group row">
-        <label for="oe" class="col-sm-2 col-form-label-lg">Objetivos Estratégicos:</label>
-        <div class="col-sm-8">
+    <div class="form-group row mt-5">
+        <label for="oe" class="col-sm-2 col-form-label-lg">Obj. Estratégico:</label>
+        <div class="col-sm-1">
             <select class="form-control" id="oe" name="oe_num">
-            <option value="1">1 - Educação de qualidade, inclusiva e transformadora, buscando o desenvolvimento pleno</option>
-            <option value="2">2 - Saúde pública integrada, com modernas tecnologias e amplo acesso</option>
-            <option value="3">3 - Segurança para a sociedade usando ferramentas de inteligência no combate à criminalidade</option>
-            <option value="4">4 - Desenvolvimento econômico promovendo o investimento, a inovação, o turismo e a economia criativa</option>
-            <option value="5">5 - Desenvolvimento social garantindo os direitos individuais e coletivos e promovendo a autonomia plena</option>
-            <option value="6">6 - Qualidade de vida urbana, com moradia adequada e mobilidade</option>
-            <option value="8">8 - Desenvolvimento sustentável preservando o meio ambiente e protegendo a população frente aos desastres naturais</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="8">8</option>
             </select>
         </div>
     </div>
