@@ -8,12 +8,14 @@ router.get('/', async (req, res)=> {
     const dataRegistro = await Registro.find({}).sort({oe_num: 'asc'});
     const dataVariavel = await Variavel.find({}).sort({oe_origem: 'asc'});
     try {
-        //Formatando a exibição de Registros
+        //Formatando a exibição de Registros e Variáveis
         let registros = preparaRegistros(dataRegistro);
+        let variaveis = preparaVariaveis(dataVariavel);
         //Inserindo as Variáveis corretas em cada Registro para a exibição
-        dataVariavel.forEach(variavel => {
+        variaveis.forEach(variavel => {
             registros.forEach(registro => {
                 if(variavel.oe_origem == registro.oe_num) {
+                    delete(variavel.oe_origem);
                     registro.variaveis.push(variavel);
                 }
             })
@@ -60,7 +62,7 @@ router.get('/:oe/:periodo', async (req, res)=> {
 })
 
 
-//Função que prepara o JSON no formato para ser enviado
+//Função que prepara os Registros no formato para ser enviado
 function preparaRegistros(data) {
     let array = [];
     data.forEach(indicador => {
@@ -68,6 +70,25 @@ function preparaRegistros(data) {
             oe_num: indicador.oe_num,
             oe: indicador.oe,
             variaveis: []
+        }
+        array.push(json);
+        
+    })
+    return array;
+}
+
+//Função que prepara as Variáveis no formato ideal para serem enviadas
+function preparaVariaveis(data) {
+    let array = [];
+    data.forEach(indicador => {
+        let json = {
+            oe_origem: indicador.oe_origem,
+            indicador: indicador.indicador,
+            fonte: indicador.fonte,
+            periodo: {
+                ano: indicador.periodo.ano,
+                valor: indicador.periodo.valor
+            }
         }
         array.push(json);
         
