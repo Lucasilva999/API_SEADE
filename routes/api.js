@@ -5,8 +5,8 @@ const Variavel = require('../models/Variavel');
 
 //Monstrando todos os registros
 router.get('/', async (req, res)=> {
-    const dataRegistro = await Registro.find({}).sort({oe_num: 'asc'});
-    const dataVariavel = await Variavel.find({}).sort({oe_origem: 'asc'});
+    const dataRegistro = await Registro.find({});
+    const dataVariavel = await Variavel.find({});
     try {
         //Formatando a exibição de Registros e Variáveis
         let registros = preparaRegistros(dataRegistro);
@@ -46,19 +46,28 @@ router.get('/delete/:id', async (req, res) => {
 })
 
 //Mostrando registros listados por OE
-router.get('/:oe', async (req, res)=> {
-    let oe = req.params.oe;
-    const data = await Registro.find({oe});
-    let json = preparaJSON(data);
-    res.send({indicadores: json});
-})
+router.get('/:oe_num', async (req, res)=> {
+    let oe_num = req.params.oe_num;
+    const dataRegistro = await Registro.find({oe_num});
+    const dataVariavel = await Variavel.find({});
+    try {
+        //Formatando a exibição de Registros e Variáveis
+        let registros = preparaRegistros(dataRegistro);
+        let variaveis = preparaVariaveis(dataVariavel);
+        //Inserindo as Variáveis corretas em cada Registro para a exibição
+        variaveis.forEach(variavel => {
+            registros.forEach(registro => {
+                if(variavel.oe_origem == registro.oe_num) {
+                    delete(variavel.oe_origem);
+                    registro.variaveis.push(variavel);
+                }
+            })
+        }); 
+        res.send({indicadores: registros});
 
-//Mostrando registros listados por OE/Período
-router.get('/:oe/:periodo', async (req, res)=> {
-    let { oe, periodo } = req.params;
-    const data = await Registro.find({oe, periodo});
-    let json = preparaJSON(data);
-    res.send({indicadores: json});
+    }catch(err) {
+        console.log(`Erro ao deletar registro: ${err}`);
+    }
 })
 
 
