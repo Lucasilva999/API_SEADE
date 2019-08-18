@@ -5,8 +5,8 @@ const Variavel = require('../models/Variavel');
 
 //Monstrando todos os registros
 router.get('/', async (req, res)=> {
-    const dataRegistro = await Registro.find({});
-    const dataVariavel = await Variavel.find({});
+    const dataRegistro = await Registro.find({}).sort({oe_num: "asc"});
+    const dataVariavel = await Variavel.find({}).sort({"periodo.ano": "asc"});
     try {
         //Formatando a exibição de Registros e Variáveis
         let registros = preparaRegistros(dataRegistro);
