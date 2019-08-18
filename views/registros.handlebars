@@ -4,20 +4,14 @@
     </a>
 </h1>
 
-<!--
-    <a href="/api/delete/{{_id}}" role="button">
-        <i class="fas fa-times float-right ml-2 hover text-white"></i>
-    </a>
- -->
-
 <div class="list-group">
 {{#each registros}}
-    <button href="#collapse_{{_id}}" class="list-group-item list-group-item-action list-group-item-info"
+    <button href="#collapse_{{_id}}" class="list-group-item list-group-item-action list-group-item-info lead"
     data-toggle="collapse" type="button" aria-expanded="false" aria-controls="collapse_{{_id}}"
     id="collapse_link_{{_id}}">
         <strong>{{oe_num}}</strong>. {{oe}}
         <a href="/api/delete/registro/{{_id}}" role="button">
-            <i class="fas fa-times float-right ml-2 hover text-red"></i>
+            <i class="fas fa-times fa-lg float-right py-2 px-1 hover text-danger"></i>
         </a>
     </button>
     <div class="collapse" id="collapse_{{_id}}">
@@ -25,12 +19,15 @@
         {{#each variaveis as |item|}}
            <li class="list-group-item list-group-item-light">
                <a href="/api/delete/variavel/{{_id}}" role="button">
-                    <i class="fas fa-times float-right ml-2 hover text-red"></i>
+                    <i class="fas fa-trash-alt fa-lg float-right ml-2 hover text-danger"></i>
                 </a>
-               <p>Indicador: {{item.indicador}}</p>
-               <p>Fonte: {{item.fonte}}</p>
-               <p>Ano: {{item.periodo.ano}}</p>
-               <p>Valor: {{item.periodo.valor}}</p>
+                <a href="#" role="button">
+                    <i class="fas fa-edit fa-lg float-right hover text-info"></i>
+                </a>
+               <p><span class="font-weight-bold">Indicador:</span> {{item.indicador}}</p>
+               <p><span class="font-weight-bold">Fonte:</span>  {{item.fonte}}</p>
+               <p><span class="font-weight-bold">Ano:</span>  {{item.periodo.ano}}</p>
+               <p><span class="font-weight-bold">Valor:</span>  {{item.periodo.valor}}</p>
            </li>
         {{/each}}
         </div>
@@ -42,6 +39,10 @@
 <style>
     .hover:hover {
         cursor: pointer;
+    }
+
+    .list-group-item {
+        overflow-wrap: break-word;
     }
 </style>
 

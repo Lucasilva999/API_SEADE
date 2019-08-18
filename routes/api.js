@@ -51,17 +51,18 @@ router.get('/delete/variavel/:id', async (req, res) => {
         const registros = await Registro.find({});
         const variavel = await Variavel.findOne({"_id": req.params.id});
         let idVariavel = variavel._id.toString();
-        console.log(idVariavel); 
+
         registros.forEach(registro => {
             registro.variaveis.forEach(async variavel => {
+                //Procurando no array do Registro pela variável correspondente
                 if(variavel == idVariavel) {
-                    //console.log('Funcionouuu')
+                    //Excluindo o ID da Váriavel armazenada no array do Registro
                     await Registro.findOneAndUpdate({variaveis: idVariavel}, 
                     {$pull: {variaveis: variavel}}, {new: true});
                 }
-                
             })
         })
+        //Deletando a Variável correspondente
         await Variavel.deleteOne({"_id": req.params.id});
         res.redirect('/admin/registros');
         
