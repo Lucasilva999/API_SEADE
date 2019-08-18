@@ -4,25 +4,26 @@
     </a>
 </h1>
 
-<div class="row justify-content-center">
+<!--
+    <a href="/api/delete/{{_id}}" role="button">
+        <i class="fas fa-times float-right ml-2 hover text-white"></i>
+    </a>
+ -->
+
+
 {{#each registros}}
-    <div class="card text-white bg-primary mb-3 d-inline-block mx-2
-    " style="width: 18rem;">
-        <div class="card-header">
-                <a href="/api/delete/{{_id}}" role="button">
-                    <i class="fas fa-times float-right ml-2 hover text-white"></i>
-                </a>
-            {{indicador}}
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Informações:</h5>
-            <p class="card-text">OE: {{oe}}</p>
-            <p class="card-text">Período: {{periodo}}</p>
-            <p class="card-text">Valor: {{dado}}</p>
-        </div>
-    </div>
+    <h5>{{oe_num}} - {{oe}}</h5>
+    {{#each variaveis as |item|}}
+        <ul>
+            <li>Indicador: {{item.indicador}}</li>
+            <li>Fonte: {{item.fonte}}</li>
+            <li>Ano: {{item.periodo.ano}}</li>
+            <li>Valor: {{item.periodo.valor}}</li>
+        </ul>
+    {{/each}}
+    <hr/>
 {{/each}}
-</div>
+
 
 <style>
     .hover:hover {
