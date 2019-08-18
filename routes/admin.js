@@ -1,4 +1,4 @@
-//Importanto Express Router e Model Registro
+//Importanto Express Router e Models
 const router = require('express').Router();
 const Registro = require('../models/Registro');
 const Variavel = require('../models/Variavel');
@@ -12,10 +12,6 @@ router.get('/', (req, res)=> {
 router.get('/cadastro', (req, res)=> {
     res.render('cadastro.handlebars');
 })
-
-/*
-.then(res.render('registros.handlebars', {variavel, registro}))
-*/
 
 //Página para visualização de informações cadastradas
 router.get('/registros', async (req, res)=> {
@@ -101,6 +97,7 @@ function preparaRegistros(data) {
     let array = [];
     data.forEach(indicador => {
         let json = {
+            _id: indicador._id,
             oe_num: indicador.oe_num,
             oe: indicador.oe,
             variaveis: []
@@ -114,14 +111,15 @@ function preparaRegistros(data) {
 //Função que prepara as Variáveis no formato ideal para serem enviadas
 function preparaVariaveis(data) {
     let array = [];
-    data.forEach(indicador => {
+    data.forEach(variavel => {
         let json = {
-            oe_origem: indicador.oe_origem,
-            indicador: indicador.indicador,
-            fonte: indicador.fonte,
+            _id: variavel._id,
+            oe_origem: variavel.oe_origem,
+            indicador: variavel.indicador,
+            fonte: variavel.fonte,
             periodo: {
-                ano: indicador.periodo.ano,
-                valor: indicador.periodo.valor
+                ano: variavel.periodo.ano,
+                valor: variavel.periodo.valor
             }
         }
         array.push(json);

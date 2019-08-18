@@ -27,8 +27,8 @@ router.get('/', async (req, res)=> {
     }
 })
 
-//Rota para deletar registros
-router.get('/delete/:id', async (req, res) => {
+//Rota para deletar Registros
+router.get('/delete/registro/:id', async (req, res) => {
     try{
         //Exclui o Registro do BD
         const registro = await Registro.findOne({"_id": req.params.id});
@@ -38,6 +38,31 @@ router.get('/delete/:id', async (req, res) => {
             await Variavel.deleteOne({"_id": variavel});
         })
 
+        res.redirect('/admin/registros');
+        
+    }catch(err){
+        console.log(`Erro ao deletar registro: ${err}`);
+    }
+})
+
+//Rota para deletar Variáveis
+router.get('/delete/variavel/:id', async (req, res) => {
+    try{
+        const registros = await Registro.find({});
+        const variavel = await Variavel.findOne({"_id": req.params.id});
+        let idVariavel = variavel._id.toString();
+        console.log(idVariavel); 
+        registros.forEach(registro => {
+            registro.variaveis.forEach(async variavel => {
+                if(variavel == idVariavel) {
+                    //console.log('Funcionouuu')
+                    await Registro.findOneAndUpdate({variaveis: idVariavel}, 
+                    {$pull: {variaveis: variavel}}, {new: true});
+                }
+                
+            })
+        })
+        await Variavel.deleteOne({"_id": req.params.id});
         res.redirect('/admin/registros');
         
     }catch(err){

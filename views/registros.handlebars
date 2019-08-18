@@ -10,19 +10,33 @@
     </a>
  -->
 
-
+<div class="list-group">
 {{#each registros}}
-    <h5>{{oe_num}} - {{oe}}</h5>
-    {{#each variaveis as |item|}}
-        <ul>
-            <li>Indicador: {{item.indicador}}</li>
-            <li>Fonte: {{item.fonte}}</li>
-            <li>Ano: {{item.periodo.ano}}</li>
-            <li>Valor: {{item.periodo.valor}}</li>
-        </ul>
-    {{/each}}
-    <hr/>
+    <button href="#collapse_{{_id}}" class="list-group-item list-group-item-action list-group-item-info"
+    data-toggle="collapse" type="button" aria-expanded="false" aria-controls="collapse_{{_id}}"
+    id="collapse_link_{{_id}}">
+        <strong>{{oe_num}}</strong>. {{oe}}
+        <a href="/api/delete/registro/{{_id}}" role="button">
+            <i class="fas fa-times float-right ml-2 hover text-red"></i>
+        </a>
+    </button>
+    <div class="collapse" id="collapse_{{_id}}">
+        <div class="list-group">
+        {{#each variaveis as |item|}}
+           <li class="list-group-item list-group-item-light">
+               <a href="/api/delete/variavel/{{_id}}" role="button">
+                    <i class="fas fa-times float-right ml-2 hover text-red"></i>
+                </a>
+               <p>Indicador: {{item.indicador}}</p>
+               <p>Fonte: {{item.fonte}}</p>
+               <p>Ano: {{item.periodo.ano}}</p>
+               <p>Valor: {{item.periodo.valor}}</p>
+           </li>
+        {{/each}}
+        </div>
+    </div>
 {{/each}}
+</div>
 
 
 <style>
