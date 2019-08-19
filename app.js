@@ -22,15 +22,15 @@ const dotenv = require('dotenv');
     //Conexão com o MongoDB
     mongoose.connect(process.env.CONNECTION_STRING, {useNewUrlParser: true, useFindAndModify: false})
     .then(()=> console.log('Conectado ao Banco de Dados...'))
-    .catch(err => console.log(`Erro ao se conectar ao Banco de Dados: ${err}`))
+    .catch(err => console.log(`Erro ao se conectar ao Banco de Dados: ${err}`));
 
-     //Importando Rotas
-     const routeDados = require('./routes/dados.js');
-     const routeAdmin = require('./routes/admin');
+    //Importando Rotas
+    const routeDados = require('./routes/dados.js');
+    const routeAdmin = require('./routes/admin');
 
-     //Usando rotas
-     app.use('/dados', routeDados);
-     app.use('/admin', routeAdmin);
+    //Usando rotas
+    app.use('/dados', routeDados);
+    app.use('/admin', routeAdmin);
      
 
 app.listen(porta, ()=> console.log(`Escutando na porta ${porta}...`));

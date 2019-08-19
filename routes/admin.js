@@ -34,7 +34,7 @@ router.get('/registros', async (req, res)=> {
                 }
             })
         })
-        res.render('registros.handlebars', {registros})
+        res.render('registros.handlebars', {registros});
  
     }catch(err) {
         res.send(`<p>Erro: ${err}</p>`);
@@ -47,7 +47,6 @@ router.post('/cadastro', async (req, res)=> {
     let { oe_num, ano, valor, fonte, indicador } = req.body;
     let oe =  defineOE(oe_num);
     
-
     try {
         let find = await Registro.find({oe_num});
         if(find[0]) {
@@ -77,7 +76,6 @@ router.get('/delete/registro/:id', async (req, res) => {
         registro.variaveis.forEach(async variavel => {
             await Variavel.deleteOne({"_id": variavel});
         })
-
         res.redirect('/admin/registros');
         
     }catch(err){
