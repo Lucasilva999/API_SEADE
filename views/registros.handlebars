@@ -1,10 +1,11 @@
-<h1 class="text-center mt-3 mb-5">Informações Registradas
-    <a class="btn btn-primary btn-sm" href="/admin" role="button">
-        <i class="fas fa-arrow-left"></i>  Voltar
-    </a>
-</h1>
+<h1 class="text-center mt-3 mb-4">Informações Registradas</h1>
 
-<div class="list-group">
+<div class="mb-3 text-center">
+    <a class="btn btn-info mb-4" href="/admin/cadastro" role="button">Cadastrar Informações</a>
+    <a class="btn btn-secondary mb-4" href="/admin" role="button">Voltar</a>
+</div>
+
+<div class="list-group mb-3">
 {{#each registros}}
     <button href="#collapse_{{_id}}" class="list-group-item list-group-item-action list-group-item-info lead"
     data-toggle="collapse" type="button" aria-expanded="false" aria-controls="collapse_{{_id}}"
@@ -21,20 +22,69 @@
                <a href="/api/delete/variavel/{{_id}}" role="button">
                     <i class="fas fa-trash-alt fa-lg float-right ml-2 hover text-danger"></i>
                 </a>
-                <a href="#" role="button">
-                    <i class="fas fa-edit fa-lg float-right hover text-info"></i>
-                </a>
+                <i class="fas fa-edit fa-lg float-right hover text-info" data-toggle="modal" data-target="#ExemploModalCentralizado_{{_id}}"></i>
+                
                <p><span class="font-weight-bold">Indicador:</span> {{item.indicador}}</p>
                <p><span class="font-weight-bold">Fonte:</span>  {{item.fonte}}</p>
                <p><span class="font-weight-bold">Ano:</span>  {{item.periodo.ano}}</p>
                <p><span class="font-weight-bold">Valor:</span>  {{item.periodo.valor}}</p>
            </li>
+
+           <!-- Modal -->
+            <div class="modal fade" id="ExemploModalCentralizado_{{_id}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="TituloModalCentralizado_{{_id}}">Editar Informações</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <!-- Formulário de Edição -->
+                    <form method="POST" action="/api/update">
+                    <div class="form-group row">
+                        <label for="periodo" class="col-sm-2 col-form-label-lg">Ano:</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="periodo" name="ano" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="dado" class="col-sm-2 col-form-label-lg">Valor:</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="dado" name="valor" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="fonte" class="col-sm-2 col-form-label-lg">Fonte:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="fonte" name="fonte" placeholder="">
+                        </div>
+                    </div>
+
+                    <label for="indicador" class="col-form-label-lg">Indicador:</label>
+                    <div>
+                        <textarea class="form-control" id="indicador" name="indicador" placeholder="" rows="3" cols="30"
+                        style="resize:none"></textarea>
+                    </div>
+                    <input type="hidden" name="_id" id="id" value="{{_id}}"/>             
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+                </div>
+                </div>
+                </form>
+            </div>
+            </div>
+            <!-- Fim do Modal -->
         {{/each}}
         </div>
     </div>
 {{/each}}
 </div>
-
 
 <style>
     .hover:hover {

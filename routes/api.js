@@ -71,6 +71,24 @@ router.get('/delete/variavel/:id', async (req, res) => {
     }
 })
 
+//Rota Para Editar Variáveis
+router.post('/update', async (req, res)=> {
+    let { _id, ano, valor, fonte, indicador } = req.body;
+    
+    try {
+        const variavel = await Variavel.findOne({_id});
+        variavel.indicador = indicador;
+        variavel.fonte = fonte;
+        variavel.periodo.ano = ano;
+        variavel.periodo.valor = valor;
+        await variavel.save();
+        res.redirect('/admin/registros');
+
+    }catch(err) {
+        res.send(`<p>Erro: ${err}</p>`);
+    }
+})
+
 //Mostrando registros listados por OE
 router.get('/:oe_num', async (req, res)=> {
     let oe_num = req.params.oe_num;
