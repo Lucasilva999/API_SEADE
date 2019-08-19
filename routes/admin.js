@@ -2,6 +2,10 @@
 const router = require('express').Router();
 const Registro = require('../models/Registro');
 const Variavel = require('../models/Variavel');
+//Importando as Funções que serão utilizadas
+const preparaRegistros = require('../functions/preparaRegistros');
+const preparaVariaveis = require('../functions/preparaVariaveis');
+const defineOE = require('../functions/defineOE');
 
 //Rota geral Admin
 router.get('/', (req, res)=> {
@@ -17,7 +21,7 @@ router.get('/cadastro', (req, res)=> {
 router.get('/registros', async (req, res)=> {
     try{
         const dataRegistro = await Registro.find({}).sort({oe_num: "asc"});
-        const dataVariavel = await Variavel.find({}).sort({"periodo.ano": "asc"});
+        const dataVariavel = await Variavel.find({}).sort({"periodo.ano": "asc", "periodo.valor": "asc"});
         //Formatando a exibição de Registros e Variáveis
         let registros = preparaRegistros(dataRegistro);
         let variaveis = preparaVariaveis(dataVariavel);
@@ -63,69 +67,5 @@ router.post('/cadastro', async (req, res)=> {
     }
 })
 
-//Define o campo OE com base no valor de oe_num recebido no formulário
-function defineOE(oe_num) {
-    let oe = '';
-    switch (oe_num) {
-        case '1':
-            oe = 'Educação de qualidade, inclusiva e transformadora, buscando o desenvolvimento pleno';
-            break;
-        case '2': 
-            oe = 'Saúde pública integrada, com modernas tecnologias e amplo acesso';
-            break;
-        case '3':
-            oe = 'Segurança para a sociedade usando ferramentas de inteligência no combate à criminalidade';
-            break;
-        case '4':
-            oe = 'Desenvolvimento econômico promovendo o investimento, a inovação, o turismo e a economia criativa';
-            break;
-        case '5':
-            oe = 'Desenvolvimento social garantindo os direitos individuais e coletivos e promovendo a autonomia plena';
-            break;
-        case '6': 
-            oe = 'Qualidade de vida urbana, com moradia adequada e mobilidade';
-            break;
-        case '8': 
-            oe = 'Desenvolvimento sustentável preservando o meio ambiente e protegendo a população frente aos desastres naturais';
-            break;
-    }
-    return oe;
-}
-
-//Função que prepara os Registros no formato para ser enviado
-function preparaRegistros(data) {
-    let array = [];
-    data.forEach(indicador => {
-        let json = {
-            _id: indicador._id,
-            oe_num: indicador.oe_num,
-            oe: indicador.oe,
-            variaveis: []
-        }
-        array.push(json);
-        
-    })
-    return array;
-}
-
-//Função que prepara as Variáveis no formato ideal para serem enviadas
-function preparaVariaveis(data) {
-    let array = [];
-    data.forEach(variavel => {
-        let json = {
-            _id: variavel._id,
-            oe_origem: variavel.oe_origem,
-            indicador: variavel.indicador,
-            fonte: variavel.fonte,
-            periodo: {
-                ano: variavel.periodo.ano,
-                valor: variavel.periodo.valor
-            }
-        }
-        array.push(json);
-        
-    })
-    return array;
-}
 
 module.exports = router;

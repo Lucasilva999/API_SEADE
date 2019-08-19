@@ -2,11 +2,14 @@
 const router = require('express').Router();
 const Registro = require('../models/Registro');
 const Variavel = require('../models/Variavel');
+//Importando as Funções que serão utilizadas
+const preparaRegistros = require('../functions/preparaRegistrosAPI');
+const preparaVariaveis = require('../functions/preparaVariaveisAPI');
 
 //Monstrando todos os registros
 router.get('/', async (req, res)=> {
     const dataRegistro = await Registro.find({}).sort({oe_num: "asc"});
-    const dataVariavel = await Variavel.find({}).sort({"periodo.ano": "asc"});
+    const dataVariavel = await Variavel.find({}).sort({"periodo.ano": "asc", "periodo.valor": "asc"});
     try {
         //Formatando a exibição de Registros e Variáveis
         let registros = preparaRegistros(dataRegistro);
@@ -93,7 +96,7 @@ router.post('/update', async (req, res)=> {
 router.get('/:oe_num', async (req, res)=> {
     let oe_num = req.params.oe_num;
     const dataRegistro = await Registro.find({oe_num});
-    const dataVariavel = await Variavel.find({});
+    const dataVariavel = await Variavel.find({}).sort({"periodo.ano": "asc", "periodo.valor": "asc"});
     try {
         //Formatando a exibição de Registros e Variáveis
         let registros = preparaRegistros(dataRegistro);
@@ -114,39 +117,5 @@ router.get('/:oe_num', async (req, res)=> {
     }
 })
 
-
-//Função que prepara os Registros no formato para ser enviado
-function preparaRegistros(data) {
-    let array = [];
-    data.forEach(indicador => {
-        let json = {
-            oe_num: indicador.oe_num,
-            oe: indicador.oe,
-            variaveis: []
-        }
-        array.push(json);
-        
-    })
-    return array;
-}
-
-//Função que prepara as Variáveis no formato ideal para serem enviadas
-function preparaVariaveis(data) {
-    let array = [];
-    data.forEach(indicador => {
-        let json = {
-            oe_origem: indicador.oe_origem,
-            indicador: indicador.indicador,
-            fonte: indicador.fonte,
-            periodo: {
-                ano: indicador.periodo.ano,
-                valor: indicador.periodo.valor
-            }
-        }
-        array.push(json);
-        
-    })
-    return array;
-}
 
 module.exports = router;
