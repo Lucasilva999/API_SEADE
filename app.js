@@ -25,11 +25,11 @@ const dotenv = require('dotenv');
     .catch(err => console.log(`Erro ao se conectar ao Banco de Dados: ${err}`))
 
      //Importando Rotas
-     const routeApi = require('./routes/api.js');
+     const routeDados = require('./routes/dados.js');
      const routeAdmin = require('./routes/admin');
 
      //Usando rotas
-     app.use('/api', routeApi);
+     app.use('/dados', routeDados);
      app.use('/admin', routeAdmin);
      
 
