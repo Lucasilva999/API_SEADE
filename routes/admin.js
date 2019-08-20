@@ -29,25 +29,23 @@ router.post('/cadastro-excel', async (req, res)=> {
     txt = cadastroExcel(txt);
 
     try {
-        const registros = await Registro.find({});
+        txt.forEach( async item => {
+            let { oe_num, oe, indicador, fonte, ano, valor } = item;
+    
+            //Caso OE ainda não tenha sido cadastrado
+            let registroExiste = await Registro.find({oe_num});
+            if(registroExiste != null && registroExiste != undefined && registroExiste != false &&
+               registroExiste != []) { 
+                let variaveis = await Variavel.create({oe_origem: oe_num, indicador, fonte, periodo:{ano, valor}});
+                await Registro.create({ oe_num, oe, variaveis });
 
-        registros.forEach(registro => {
-            txt.forEach(async item => {
-                let { oe_num, indicador, fonte, ano, valor } = item;
-                let oe = defineOE(oe_num);
-                
-                //Caso OE já esteja cadastrado
-                if(item.oe_num == registro.oe_num) {
-                    let variaveis = await Variavel.create({oe_origem: oe_num, indicador, fonte, periodo:{ano, valor}});
-                    await Registro.findOneAndUpdate({oe_num}, {$push: {variaveis}}, {new: true});
-
-                } else {
-                    //Caso OE ainda não tenha sido cadastrado
-                    let variaveis = await Variavel.create({oe_origem: oe_num, indicador, fonte, periodo:{ano, valor}});
-                    await Registro.create({ oe_num, oe, variaveis });
-                }
-            })
+            } else {
+                //Caso OE já esteja cadastrado  
+                let variaveis = await Variavel.create({oe_origem: oe_num, indicador, fonte, periodo:{ano, valor}});
+                await Registro.findOneAndUpdate({oe_num}, {$push: {variaveis}}, {new: true});
+            }
         })
+
         //res.send(txt);
         res.redirect('/dados');
 
