@@ -24,18 +24,36 @@ router.get('/cadastro-excel', (req, res)=> {
 })
 
 //Rota POST para inserir as informações no BD
-router.post('/cadastro-excel', (req, res)=> {
+router.post('/cadastro-excel', async (req, res)=> {
     let txt = req.body.txtArea;
     txt = cadastroExcel(txt);
 
     try {
-        res.send(txt);
+        const registros = await Registro.find({});
+
+        registros.forEach(registro => {
+            txt.forEach(async item => {
+                let { oe_num, indicador, fonte, ano, valor } = item;
+                let oe = defineOE(oe_num);
+                
+                //Caso OE já esteja cadastrado
+                if(item.oe_num == registro.oe_num) {
+                    let variaveis = await Variavel.create({oe_origem: oe_num, indicador, fonte, periodo:{ano, valor}});
+                    await Registro.findOneAndUpdate({oe_num}, {$push: {variaveis}}, {new: true});
+
+                } else {
+                    //Caso OE ainda não tenha sido cadastrado
+                    let variaveis = await Variavel.create({oe_origem: oe_num, indicador, fonte, periodo:{ano, valor}});
+                    await Registro.create({ oe_num, oe, variaveis });
+                }
+            })
+        })
+        //res.send(txt);
+        res.redirect('/dados');
 
     } catch(err) {
         console.log(`Erro: ${err}`);
     }
-
-    //res.redirect('/dados');
 })
 
 //Página para visualização de informações cadastradas
