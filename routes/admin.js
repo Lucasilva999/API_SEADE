@@ -6,6 +6,7 @@ const Variavel = require('../models/Variavel');
 const preparaRegistros = require('../functions/preparaRegistros');
 const preparaVariaveis = require('../functions/preparaVariaveis');
 const defineOE = require('../functions/defineOE');
+const cadastroExcel = require('../functions/cadastroExcel');
 
 //Rota geral Admin
 router.get('/', (req, res)=> {
@@ -15,6 +16,26 @@ router.get('/', (req, res)=> {
 //Página para cadastro de informações
 router.get('/cadastro', (req, res)=> {
     res.render('cadastro.handlebars');
+})
+
+//Página de Cadastro de Informações pelo Excel
+router.get('/cadastro-excel', (req, res)=> {
+    res.render('cadastroPlanilha.handlebars');
+})
+
+//Rota POST para inserir as informações no BD
+router.post('/cadastro-excel', (req, res)=> {
+    let txt = req.body.txtArea;
+    txt = cadastroExcel(txt);
+
+    try {
+        res.send(txt);
+
+    } catch(err) {
+        console.log(`Erro: ${err}`);
+    }
+
+    //res.redirect('/dados');
 })
 
 //Página para visualização de informações cadastradas
@@ -39,7 +60,6 @@ router.get('/registros', async (req, res)=> {
     }catch(err) {
         res.send(`<p>Erro: ${err}</p>`);
     }
-    
 })
 
 //Rota POST que insere as informações no BD
@@ -126,7 +146,6 @@ router.post('/update', async (req, res)=> {
         res.send(`<p>Erro: ${err}</p>`);
     }
 })
-
 
 
 module.exports = router;
