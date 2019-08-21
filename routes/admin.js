@@ -8,24 +8,30 @@ const preparaVariaveis = require('../functions/preparaVariaveis');
 const defineOE = require('../functions/defineOE');
 const preparaDadosExcel = require('../functions/preparaDadosExcel');
 const insereDadosExcel = require('../functions/insereDadosExcel');
+const criarTokenUsuario = require('../functions/criarTokenUsuario');
+//Importando Middleware
+const auth = require('../middlewares/auth');
 
 //Rota geral Admin
 router.get('/', (req, res)=> {
+    let user = {user: 'Lucas', email: 'email@email.com', password: '123'};
+    let token = criarTokenUsuario(user);
+    console.log(token);
     res.render('admin.handlebars');
 })
 
 //Página para cadastro de informações
-router.get('/cadastro', (req, res)=> {
+router.get('/cadastro', auth, (req, res)=> {
     res.render('cadastro.handlebars');
 })
 
 //Página de Cadastro de Informações pelo Excel
-router.get('/cadastro-excel', (req, res)=> {
+router.get('/cadastro-excel', auth, (req, res)=> {
     res.render('cadastroPlanilha.handlebars');
 })
 
 //Rota POST para inserir as informações no BD
-router.post('/cadastro-excel', async (req, res)=> {
+router.post('/cadastro-excel', auth, async (req, res)=> {
     let txt = req.body.txtArea;
     txt = preparaDadosExcel(txt);
 
@@ -33,7 +39,7 @@ router.post('/cadastro-excel', async (req, res)=> {
         insereDadosExcel(txt);
         setTimeout(()=> {
             res.redirect('/dados');
-        }, 1000)
+        }, 1000);
 
     } catch(err) {
         console.log(`Erro: ${err}`);
@@ -41,7 +47,7 @@ router.post('/cadastro-excel', async (req, res)=> {
 })
 
 //Página para visualização de informações cadastradas
-router.get('/registros', async (req, res)=> {
+router.get('/registros', auth, async (req, res)=> {
     try{
         const dataRegistro = await Registro.find({}).sort({oe_num: "asc"});
         const dataVariavel = await Variavel.find({}).sort({"periodo.ano": "asc", "periodo.valor": "asc"});
@@ -65,7 +71,7 @@ router.get('/registros', async (req, res)=> {
 })
 
 //Rota POST que insere as informações no BD
-router.post('/cadastro', async (req, res)=> {
+router.post('/cadastro', auth, async (req, res)=> {
     let { oe_num, ano, valor, fonte, indicador } = req.body;
     let oe =  defineOE(oe_num);
     
@@ -89,7 +95,7 @@ router.post('/cadastro', async (req, res)=> {
 })
 
 //Rota para deletar Registros
-router.get('/delete/registro/:id', async (req, res) => {
+router.get('/delete/registro/:id', auth, async (req, res) => {
     try{
         //Exclui o Registro do BD
         const registro = await Registro.findOne({"_id": req.params.id});
@@ -106,7 +112,7 @@ router.get('/delete/registro/:id', async (req, res) => {
 })
 
 //Rota para deletar Variáveis
-router.get('/delete/variavel/:id', async (req, res) => {
+router.get('/delete/variavel/:id', auth, async (req, res) => {
     try{
         const registros = await Registro.find({});
         const variavel = await Variavel.findOne({"_id": req.params.id});
@@ -132,7 +138,7 @@ router.get('/delete/variavel/:id', async (req, res) => {
 })
 
 //Rota Para Editar Variáveis
-router.post('/update', async (req, res)=> {
+router.post('/update', auth, async (req, res)=> {
     let { _id, ano, valor, fonte, indicador } = req.body;
     
     try {
@@ -148,6 +154,5 @@ router.post('/update', async (req, res)=> {
         res.send(`<p>Erro: ${err}</p>`);
     }
 })
-
 
 module.exports = router;
