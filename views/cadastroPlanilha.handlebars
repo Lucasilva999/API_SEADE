@@ -1,9 +1,23 @@
-<h1 class="text-center mt-3 mb-5">Cadastrar Informações do Excel</h1>
+<h1 class="text-center mt-3 mb-5">Cadastrar Dados de Planilha</h1>
 
-<form method="POST" action="/admin/cadastro-excel">
-  <div class="form-group">
-    <label for="txtArea">Inisira as Informações</label>
+<button type="button" class="btn btn-info" type="button"
+ data-toggle="collapse" data-target="#collapseList">
+    Informações Sobre a Formatação Correta
+</button>
+
+<div class="collapse" id="collapseList">
+    <ul class="list-group mt-3 mb-4">
+        <li class="list-group-item list-group-item-info"><strong>1</strong> - O separador decimal dos valores deve seguir o padrão americano, utilizando o ponto, e não a vírgula.</li>
+        <li class="list-group-item list-group-item-light"><strong>2</strong> - Nenhum dado pode conter ponto e vírgula (;)</li>
+        <li class="list-group-item list-group-item-info"><strong>3</strong> - Espaços em branco e quebras de linha não necessárias devem ser removidos</li>
+    </ul>
+</div>
+
+
+<form method="POST" action="/cadastro-excel">
+  <div class="form-group mt-4">
     <textarea class="form-control" id="txtArea" name="txtArea" rows="15"></textarea>
   </div>
-  <button class="btn btn-primary" type="submit">Enviar</button>
+  <button class="btn btn-primary mb-3" type="submit">Cadastrar</button>
+  <a class="btn btn-secondary mb-3" href="/cadastro" role="button">Voltar</a>
 </form>

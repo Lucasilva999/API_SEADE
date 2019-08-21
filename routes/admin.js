@@ -96,7 +96,7 @@ router.get('/delete/registro/:id', async (req, res) => {
         registro.variaveis.forEach(async variavel => {
             await Variavel.deleteOne({"_id": variavel});
         })
-        res.redirect('/admin/registros');
+        res.redirect('/registros');
         
     }catch(err){
         console.log(`Erro ao deletar registro: ${err}`);
@@ -122,7 +122,7 @@ router.get('/delete/variavel/:id', async (req, res) => {
         })
         //Deletando a Variável correspondente
         await Variavel.deleteOne({"_id": req.params.id});
-        res.redirect('/admin/registros');
+        res.redirect('/registros');
         
     }catch(err){
         console.log(`Erro ao deletar registro: ${err}`);
@@ -140,7 +140,7 @@ router.post('/update', async (req, res)=> {
         variavel.periodo.ano = ano;
         variavel.periodo.valor = valor;
         await variavel.save();
-        res.redirect('/admin/registros');
+        res.redirect('/registros');
 
     }catch(err) {
         res.send(`<p>Erro: ${err}</p>`);

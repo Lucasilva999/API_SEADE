@@ -30,7 +30,7 @@ const dotenv = require('dotenv');
 
     //Usando rotas
     app.use('/dados', routeDados);
-    app.use('/admin', routeAdmin);
+    app.use('/', routeAdmin);
      
 
 app.listen(porta, ()=> console.log(`Escutando na porta ${porta}...`));

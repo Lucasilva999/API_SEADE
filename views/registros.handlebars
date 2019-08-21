@@ -1,8 +1,8 @@
 <h1 class="text-center mt-3 mb-4">Informações Registradas</h1>
 
 <div class="mb-3 text-center">
-    <a class="btn btn-info mb-4" href="/admin/cadastro" role="button">Cadastrar Informações</a>
-    <a class="btn btn-secondary mb-4" href="/admin" role="button">Voltar</a>
+    <a class="btn btn-info mb-4" href="/cadastro" role="button">Cadastrar Informações</a>
+    <a class="btn btn-secondary mb-4" href="/" role="button">Voltar</a>
 </div>
 
 <div class="list-group mb-3">
@@ -32,7 +32,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                <a href="/admin/delete/registro/{{_id}}" role="button" class="btn btn-primary">Deletar Registro</a>
+                <a href="/delete/registro/{{_id}}" role="button" class="btn btn-primary">Deletar Registro</a>
             </div>
             </div>
         </div>
@@ -73,7 +73,7 @@
 
                 <div class="modal-body">
                     <!-- Formulário de Edição -->
-                    <form method="POST" action="/admin/update">
+                    <form method="POST" action="/update">
                     <div class="form-group row">
                         <label for="ano" class="col-sm-2 col-form-label-lg">Ano:</label>
                         <div class="col-sm-4">
@@ -129,7 +129,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <a href="/admin/delete/variavel/{{_id}}" role="button" class="btn btn-primary">Deletar Variável</a>
+                    <a href="/delete/variavel/{{_id}}" role="button" class="btn btn-primary">Deletar Variável</a>
                 </div>
                 </div>
             </div>
