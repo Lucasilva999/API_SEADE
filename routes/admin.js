@@ -31,7 +31,9 @@ router.post('/cadastro-excel', async (req, res)=> {
 
     try {
         insereDadosExcel(txt);
-        res.redirect('/dados');
+        setTimeout(()=> {
+            res.redirect('/dados');
+        }, 1000)
 
     } catch(err) {
         console.log(`Erro: ${err}`);
