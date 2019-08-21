@@ -7,9 +7,9 @@
 
 <div class="collapse" id="collapseList">
     <ul class="list-group mt-3 mb-4">
-        <li class="list-group-item list-group-item-light">* Os dados devem estar nessa ordem: <strong>OE - Indicador - Período - Valor - Fonte</strong></li>
+        <li class="list-group-item list-group-item-light">* Os dados devem estar na seguinte ordem: <strong>OE - Indicador - Período - Valor - Fonte</strong></li>
         <li class="list-group-item list-group-item-info">* O separador decimal dos valores deve seguir o padrão americano, utilizando o ponto, e não a vírgula.</li>
-        <li class="list-group-item list-group-item-light">* Nenhum dado pode conter ponto e vírgula (;)</li>
+        <li class="list-group-item list-group-item-light">* Nenhum dado pode conter ponto e vírgula ( ; )</li>
         <li class="list-group-item list-group-item-info">* Espaços em branco e quebras de linha não necessárias devem ser removidos</li>
     </ul>
 </div>
@@ -17,6 +17,7 @@
 
 <form method="POST" action="/cadastro-excel">
   <div class="form-group mt-4">
+    <label for="txtArea">Insira aqui os dados da planilha:</label>
     <textarea class="form-control" id="txtArea" name="txtArea" rows="15"></textarea>
   </div>
   <button class="btn btn-primary mb-3" type="submit">Cadastrar</button>
