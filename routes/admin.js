@@ -6,7 +6,8 @@ const Variavel = require('../models/Variavel');
 const preparaRegistros = require('../functions/preparaRegistros');
 const preparaVariaveis = require('../functions/preparaVariaveis');
 const defineOE = require('../functions/defineOE');
-const cadastroExcel = require('../functions/cadastroExcel');
+const preparaDadosExcel = require('../functions/preparaDadosExcel');
+const insereDadosExcel = require('../functions/insereDadosExcel');
 
 //Rota geral Admin
 router.get('/', (req, res)=> {
@@ -26,32 +27,10 @@ router.get('/cadastro-excel', (req, res)=> {
 //Rota POST para inserir as informações no BD
 router.post('/cadastro-excel', async (req, res)=> {
     let txt = req.body.txtArea;
-    txt = cadastroExcel(txt);
+    txt = preparaDadosExcel(txt);
 
     try {
-        async function insereDadosnoBD() {
-            for(i = 0; i < txt.length; i++) {
-                let { oe_num, oe, indicador, fonte, ano, valor } = txt[i];
-                let registro = await Registro.findOne({oe_num});
-    
-                //Caso OE já esteja cadastrado 
-                if(registro != null && registro != undefined && registro != false &&
-                    registro != []) { 
-                    let variaveis = await Variavel.create({oe_origem: oe_num, indicador, fonte, periodo:{ano, valor}});
-                    await Registro.findOneAndUpdate({oe_num}, {$push: {variaveis}}, {new: true});
-    
-                } else {
-    
-                //Caso OE ainda não tenha sido cadastrado
-                let variaveis = await Variavel.create({oe_origem: oe_num, indicador, fonte, periodo:{ano, valor}});
-                await Registro.create({ oe_num, oe, variaveis });
-                }
-            }
-        }
-
-        insereDadosnoBD();
-
-        //res.send(txt);
+        insereDadosExcel(txt);
         res.redirect('/dados');
 
     } catch(err) {

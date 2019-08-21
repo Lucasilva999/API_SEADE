@@ -1,6 +1,6 @@
 const defineOE = require('./defineOE');
 
-function cadastroExcel(txt) {
+function preparaDadosExcel(txt) {
     let array = [];
     txt = txt.replace(/(\r\n|\n|\r)/gm,";");
     txt = txt.replace(/\t+/g,";");
@@ -29,4 +29,4 @@ function cadastroExcel(txt) {
     return array;
 }
 
-module.exports = cadastroExcel;
+module.exports = preparaDadosExcel;
