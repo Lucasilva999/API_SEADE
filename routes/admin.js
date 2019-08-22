@@ -1,11 +1,14 @@
 //Importanto Express Router e Models
 const router = require('express').Router();
 const Registro = require('../models/Registro');
-const Variavel = require('../models/Variavel');
+const Indicador = require('../models/Indicador');
+const Periodo = require('../models/Periodo');
 //Importando as Funções que serão utilizadas
 const preparaRegistros = require('../functions/preparaRegistros');
 const preparaVariaveis = require('../functions/preparaVariaveis');
 const defineOE = require('../functions/defineOE');
+const defineFonte = require('../functions/defineFonte');
+const defineIndicador = require('../functions/defineIndicador');
 const preparaDadosExcel = require('../functions/preparaDadosExcel');
 const insereDadosExcel = require('../functions/insereDadosExcel');
 const criarTokenUsuario = require('../functions/criarTokenUsuario');
@@ -72,21 +75,43 @@ router.get('/registros', auth, async (req, res)=> {
 
 //Rota POST que insere as informações no BD
 router.post('/cadastro', auth, async (req, res)=> {
-    let { oe_num, ano, valor, fonte, indicador } = req.body;
-    let oe =  defineOE(oe_num);
+    let { oe_id, ano, valor, fonte_id, indicador_id } = req.body;
+    let oe_desc =  defineOE(oe_id);
+    let fonte_nome = defineFonte(fonte_id);
+    let indicador_nome = defineIndicador(indicador_id);
     
     try {
-        let find = await Registro.find({oe_num});
-        if(find[0]) {
+        let findOE = await Registro.find({oe_id});
+        let findIndicador = await Indicador.find({indicador_id});
+        if(findOE[0]) {
             //Caso OE já esteja cadastrado
-            let variaveis = await Variavel.create({oe_origem: oe_num, indicador, fonte, periodo:{ano, valor}});
-            await Registro.findOneAndUpdate({oe_num}, {$push: {variaveis}}, {new: true});
-            res.render('cadastro.handlebars');
+            if(findIndicador[0]) {
+                //Caso Indicador já esteja cadastrado
+                let periodo = await Periodo.create({ano, valor});
+                await Indicador.findOneAndUpdate({indicador_id}, {$push: {periodo}}, {new: true});
+                res.render('cadastro.handlebars');
+            } else {
+                //Caso Indicador não esteja cadastrado
+                let periodo = await Periodo.create({ano, valor});
+                let indicadores = await Indicador.create({indicador_id, indicador_nome, fonte: {fonte_id, fonte_nome}, periodo});
+                await Registro.findOneAndUpdate({oe_id}, {$push: {indicadores}}, {new: true});
+                res.render('cadastro.handlebars');
+            }
         }else {
             //Caso OE ainda não tenha sido cadastrado
-            let variaveis = await Variavel.create({oe_origem: oe_num, indicador, fonte, periodo:{ano, valor}});
-            await Registro.create({ oe_num, oe, variaveis });
-            res.render('cadastro.handlebars');
+            if(findIndicador[0]) {
+                //Caso Indicador já esteja cadastrado
+                let periodo = await Periodo.create({ano, valor});
+                let indicadores = await Indicador.findOneAndUpdate({indicador_id}, {$push: {periodo}}, {new: true});
+                await Registro.create({ oe_id, oe_desc, indicadores });
+                res.render('cadastro.handlebars');
+            } else {
+                //Caso Indicador não esteja cadastrado
+                let periodo = await Periodo.create({ano, valor});
+                let indicadores = await Indicador.create({indicador_id, indicador_nome, fonte: {fonte_id, fonte_nome}, periodo});
+                await Registro.create({ oe_id, oe_desc, indicadores });
+                res.render('cadastro.handlebars');
+            }
         }
 
     }catch(err) {

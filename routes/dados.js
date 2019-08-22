@@ -1,7 +1,7 @@
 //Importanto Express Router e Model Registro
 const router = require('express').Router();
 const Registro = require('../models/Registro');
-const Variavel = require('../models/Variavel');
+const Variavel = require('../models/Indicador');
 //Importando as Funções que serão utilizadas
 const preparaRegistros = require('../functions/preparaRegistrosAPI');
 const preparaVariaveis = require('../functions/preparaVariaveisAPI');

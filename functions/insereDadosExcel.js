@@ -1,5 +1,5 @@
 const Registro = require('../models/Registro');
-const Variavel = require('../models/Variavel');
+const Variavel = require('../models/Indicador');
 
 //Insere no Banco de Dados os dados recebidos no Array de Objetos passado no Parâmetro 
 async function insereDadosExcel(txt) {

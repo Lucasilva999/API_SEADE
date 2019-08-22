@@ -5,7 +5,7 @@ const IndicadorSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    nome: {
+    indicador_nome: {
         type: String,
         required: true
     },
