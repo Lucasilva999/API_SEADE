@@ -16,7 +16,7 @@ const auth = require('../middlewares/auth');
 router.get('/', (req, res)=> {
     let user = {user: 'Lucas', email: 'email@email.com', password: '123'};
     let token = criarTokenUsuario(user);
-    console.log(token);
+    //console.log(token);
     res.render('admin.handlebars');
 })
 

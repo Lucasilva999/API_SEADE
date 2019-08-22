@@ -2,17 +2,17 @@ const mongoose = require('mongoose');
 
 //Model com que as informações são salvas no BD
 const RegistroSchema = new mongoose.Schema({
-    oe_num: {
+    oe_id: {
         type: Number,
         required: true
     },
-    oe: {
+    oe_desc: {
         type: String,
         required: true
     },
-    variaveis: [{
+    indicadores: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'variavel',
+        ref: 'indicador',
         required: true
     }]
 })
