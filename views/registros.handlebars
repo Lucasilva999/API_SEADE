@@ -10,7 +10,7 @@
     <button href="#collapse_{{_id}}" class="list-group-item list-group-item-action list-group-item-info lead"
     data-toggle="collapse" type="button" aria-expanded="false" aria-controls="collapse_{{_id}}"
     id="collapse_link_{{_id}}">
-        <strong>{{oe_num}}</strong>. {{oe}}
+        <strong>{{oe_id}}</strong>. {{oe_desc}}
         <i class="fas fa-times float-right fa-sm pb-3 pl-3 hover text-danger excluirRegistros"
         data-toggle="modal" data-target="#modal_registro_{{_id}}" data-id="{{_id}}"></i>
     </button>
@@ -21,7 +21,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Deletar Registro - O.E. {{oe_num}}</h5>
+                <h5 class="modal-title">Deletar Registro - O.E. {{oe_id}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -43,7 +43,7 @@
     <div class="collapse" id="collapse_{{_id}}">
         <div class="list-group">
 
-        {{#each variaveis as |item|}}
+        {{#each indicadores as |item|}}
 
            <li class="list-group-item list-group-item-light">
 
@@ -53,8 +53,8 @@
                 <i class="fas fa-edit fa-lg float-right hover text-info" data-toggle="modal"
                  data-target="#modal_editar_{{_id}}"></i>
                 
-               <p><span class="font-weight-bold">Indicador:</span> {{item.indicador}}</p>
-               <p><span class="font-weight-bold">Fonte:</span>  {{item.fonte}}</p>
+               <p><span class="font-weight-bold">Indicador:</span>ID: {{item.indicador_id}} {{item.indicador_nome}}</p>
+               <p><span class="font-weight-bold">Fonte:</span>ID: {{item.fonte.fonte_id}}  {{item.fonte.fonte_nome}}</p>
                <p><span class="font-weight-bold">Ano:</span>  {{item.periodo.ano}}</p>
                <p><span class="font-weight-bold">Valor:</span>  {{item.periodo.valor}}</p>
            </li>

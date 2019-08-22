@@ -4,8 +4,9 @@ const Registro = require('../models/Registro');
 const Indicador = require('../models/Indicador');
 const Periodo = require('../models/Periodo');
 //Importando as Funções que serão utilizadas
-const preparaRegistros = require('../functions/preparaRegistros');
-const preparaVariaveis = require('../functions/preparaVariaveis');
+const preparaRegistros = require('../functions/preparaRegistrosAPI');
+const preparaIndicadores = require('../functions/preparaIndicadoresAPI');
+const preparaPeriodos = require('../functions/preparaPeriodosAPI');
 const defineOE = require('../functions/defineOE');
 const defineFonte = require('../functions/defineFonte');
 const defineIndicador = require('../functions/defineIndicador');
@@ -52,20 +53,29 @@ router.post('/cadastro-excel', auth, async (req, res)=> {
 //Página para visualização de informações cadastradas
 router.get('/registros', auth, async (req, res)=> {
     try{
-        const dataRegistro = await Registro.find({}).sort({oe_num: "asc"});
-        const dataVariavel = await Variavel.find({}).sort({"periodo.ano": "asc", "periodo.valor": "asc"});
-        //Formatando a exibição de Registros e Variáveis
-        let registros = preparaRegistros(dataRegistro);
-        let variaveis = preparaVariaveis(dataVariavel);
-        //Inserindo as Variáveis corretas em cada Registro para a exibição
-        variaveis.forEach(variavel => {
-            registros.forEach(registro => {
-                if(variavel.oe_origem == registro.oe_num) {
-                    delete(variavel.oe_origem);
-                    registro.variaveis.push(variavel);
-                }
-            })
-        })
+        const dataRegistro = await Registro.find({}).sort({oe_id: "asc"});
+        const dataIndicador = await Indicador.find({}).sort({indicador_id: "asc", "fonte.fonte_id": "asc"});
+        const dataPeriodo = await Periodo.find({}).sort({ano: "asc"});
+
+         //Formatando a exibição de Registros, Indicadores e Períodos
+         let registros = preparaRegistros(dataRegistro);
+         let indicadores = preparaIndicadores(dataIndicador);
+         let periodos = preparaPeriodos(dataPeriodo);
+         //Inserindo os Indicadores corretos em cada Registro, e os Períodos em cada indicador
+         periodos.forEach(periodo => {
+             indicadores.forEach(indicador => {
+                 if(periodo.indicador_origem == indicador.indicador_id) {
+                     delete(periodo.indicador_origem);
+                     indicador.periodo.push(periodo);
+                 }
+                 registros.forEach(registro => {
+                     if(indicador.oe_origem == registro.oe_id) {
+                         delete(indicador.oe_origem);
+                         registro.indicadores.push(indicador);
+                     } 
+                 })
+             })
+         })
         res.render('registros.handlebars', {registros});
  
     }catch(err) {
@@ -122,13 +132,23 @@ router.post('/cadastro', auth, async (req, res)=> {
 //Rota para deletar Registros
 router.get('/delete/registro/:id', auth, async (req, res) => {
     try{
-        //Exclui o Registro do BD
+
         const registro = await Registro.findOne({"_id": req.params.id});
-        await Registro.deleteOne({"_id": req.params.id});
-        //Exclui cada uma da Variaveis atribuídas a esse Registro
-        registro.variaveis.forEach(async variavel => {
-            await Variavel.deleteOne({"_id": variavel});
+        
+        registro.indicadores.forEach(async idIndicador => {
+            indicadores = await Indicador.find({"_id": idIndicador});
+            indicadores.forEach(async indicador => {
+                //Deleta Cada um dos Períodos associados aos Indicadores do Registro
+                indicador.periodo.forEach( async idPeriodo => {
+                    await Periodo.deleteOne({"_id": idPeriodo});
+                })
+                //Deleta Cada um dos Indicadores associados ao Regeistro
+                await Indicador.deleteOne({"_id": indicador});
+            })
         })
+        //Deleta o Registro
+        await Registro.deleteOne({"_id": req.params.id});
+
         res.redirect('/registros');
         
     }catch(err){
@@ -136,8 +156,8 @@ router.get('/delete/registro/:id', auth, async (req, res) => {
     }
 })
 
-//Rota para deletar Variáveis
-router.get('/delete/variavel/:id', auth, async (req, res) => {
+//Rota para deletar Indicadores
+router.get('/delete/indiador/:id', auth, async (req, res) => {
     try{
         const registros = await Registro.find({});
         const variavel = await Variavel.findOne({"_id": req.params.id});

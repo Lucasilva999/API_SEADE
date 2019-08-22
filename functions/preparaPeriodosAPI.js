@@ -3,6 +3,7 @@ function preparaPeriodos(data) {
     let array = [];
     data.forEach(periodo => {
         let json = {
+            _id: periodo._id,
             indicador_origem: periodo.indicador_origem,
             ano: periodo.ano,
             valor: periodo.valor

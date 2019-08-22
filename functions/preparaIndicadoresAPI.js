@@ -3,6 +3,7 @@ function preparaIndicadores(data) {
     let array = [];
     data.forEach(indicador => {
         let json = {
+            _id: indicador._id,
             oe_origem: indicador.oe_origem,
             indicador_id: indicador.indicador_id,
             indicador_nome: indicador.indicador_nome,
