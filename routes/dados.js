@@ -1,21 +1,21 @@
 //Importanto Express Router e Model Registro
 const router = require('express').Router();
 const Registro = require('../models/Registro');
-const Variavel = require('../models/Indicador');
+const Indicador = require('../models/Indicador');
 //Importando as Funções que serão utilizadas
 const preparaRegistros = require('../functions/preparaRegistrosAPI');
-const preparaVariaveis = require('../functions/preparaVariaveisAPI');
+const preparaIndicadores = require('../functions/preparaIndicadoresAPI');
 //Importando Middleware
 const auth = require('../middlewares/auth');
 
 //Monstrando todos os registros
 router.get('/', auth, async (req, res)=> {
-    const dataRegistro = await Registro.find({}).sort({oe_num: "asc"});
-    const dataVariavel = await Variavel.find({}).sort({"periodo.ano": "asc", "periodo.valor": "asc"});
+    const dataRegistro = await Registro.find({}).sort({oe_id: "asc"});
+    const dataIndicador = await Indicador.find({}).sort({indicador_id: "asc", "fonte.fonte_id": "asc"});
     try {
-        //Formatando a exibição de Registros e Variáveis
+        //Formatando a exibição de Registros e Indicadores
         let registros = preparaRegistros(dataRegistro);
-        let variaveis = preparaVariaveis(dataVariavel);
+        let indicadores = preparaIndicadores(dataIndicador);
         //Inserindo as Variáveis corretas em cada Registro para a exibição
         variaveis.forEach(variavel => {
             registros.forEach(registro => {

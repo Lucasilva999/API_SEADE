@@ -3,9 +3,9 @@ function preparaRegistros(data) {
     let array = [];
     data.forEach(indicador => {
         let json = {
-            oe_num: indicador.oe_num,
-            oe: indicador.oe,
-            variaveis: []
+            oe_id: indicador.oe_id,
+            oe_desc: indicador.oe_desc,
+            indicadores: []
         }
         array.push(json);
         

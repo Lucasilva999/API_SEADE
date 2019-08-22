@@ -87,13 +87,13 @@ router.post('/cadastro', auth, async (req, res)=> {
             //Caso OE já esteja cadastrado
             if(findIndicador[0]) {
                 //Caso Indicador já esteja cadastrado
-                let periodo = await Periodo.create({ano, valor});
+                let periodo = await Periodo.create({"indicador_origem": indicador_id, ano, valor});
                 await Indicador.findOneAndUpdate({indicador_id}, {$push: {periodo}}, {new: true});
                 res.render('cadastro.handlebars');
             } else {
                 //Caso Indicador não esteja cadastrado
-                let periodo = await Periodo.create({ano, valor});
-                let indicadores = await Indicador.create({indicador_id, indicador_nome, fonte: {fonte_id, fonte_nome}, periodo});
+                let periodo = await Periodo.create({"indicador_origem": indicador_id, ano, valor});
+                let indicadores = await Indicador.create({"oe_origem": oe_id, indicador_id, indicador_nome, fonte: {fonte_id, fonte_nome}, periodo});
                 await Registro.findOneAndUpdate({oe_id}, {$push: {indicadores}}, {new: true});
                 res.render('cadastro.handlebars');
             }
@@ -101,14 +101,14 @@ router.post('/cadastro', auth, async (req, res)=> {
             //Caso OE ainda não tenha sido cadastrado
             if(findIndicador[0]) {
                 //Caso Indicador já esteja cadastrado
-                let periodo = await Periodo.create({ano, valor});
+                let periodo = await Periodo.create({"indicador_origem": indicador_id, ano, valor});
                 let indicadores = await Indicador.findOneAndUpdate({indicador_id}, {$push: {periodo}}, {new: true});
                 await Registro.create({ oe_id, oe_desc, indicadores });
                 res.render('cadastro.handlebars');
             } else {
                 //Caso Indicador não esteja cadastrado
-                let periodo = await Periodo.create({ano, valor});
-                let indicadores = await Indicador.create({indicador_id, indicador_nome, fonte: {fonte_id, fonte_nome}, periodo});
+                let periodo = await Periodo.create({"indicador_origem": indicador_id, ano, valor});
+                let indicadores = await Indicador.create({"oe_origem": oe_id, indicador_id, indicador_nome, fonte: {fonte_id, fonte_nome}, periodo});
                 await Registro.create({ oe_id, oe_desc, indicadores });
                 res.render('cadastro.handlebars');
             }

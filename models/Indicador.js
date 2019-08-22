@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const IndicadorSchema = new mongoose.Schema({
+    oe_origem: {
+        type: Number,
+        required: true
+    },
     indicador_id: {
         type: String,
         required: true
