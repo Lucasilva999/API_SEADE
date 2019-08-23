@@ -157,28 +157,38 @@ router.get('/delete/registro/:id', auth, async (req, res) => {
 })
 
 //Rota para deletar Indicadores
-router.get('/delete/indiador/:id', auth, async (req, res) => {
+router.get('/delete/indicador/:id', auth, async (req, res) => {
     try{
         const registros = await Registro.find({});
-        const variavel = await Variavel.findOne({"_id": req.params.id});
-        let idVariavel = variavel._id.toString();
+        const indicador = await Indicador.findOne({"_id": req.params.id});
+        const periodos = await Periodo.find({});
+        let idIndicador = indicador._id.toString();
 
         registros.forEach(registro => {
-            registro.variaveis.forEach(async variavel => {
-                //Procurando no array do Registro pela variável correspondente
-                if(variavel == idVariavel) {
-                    //Excluindo o ID da Váriavel armazenada no array do Registro
-                    await Registro.findOneAndUpdate({variaveis: idVariavel}, 
-                    {$pull: {variaveis: variavel}}, {new: true});
+            registro.indicadores.forEach(async indicador => {
+                //Procurando no array do Registro pelo Indicador correspondente
+                if(indicador == idIndicador) {
+                    //Excluindo o ID do Indicador armazenado no array do Registro
+                    await Registro.findOneAndUpdate({indicadores: idIndicador}, 
+                    {$pull: {indicadores: indicador}}, {new: true});
                 }
             })
+            //Excluindo todos os Períodos correpsondentes ao Indicador
+            indicador.periodo.forEach(idPeriodo => {
+                periodos.forEach(async periodo => {
+                    if(idPeriodo.toString() == periodo._id) {
+                        await Periodo.deleteOne({"_id": idPeriodo});
+                    }
+                })
+            })
+
         })
-        //Deletando a Variável correspondente
-        await Variavel.deleteOne({"_id": req.params.id});
+        //Deletando o Indicador correspondente
+        await Indicador.deleteOne({"_id": req.params.id});
         res.redirect('/registros');
         
     }catch(err){
-        console.log(`Erro ao deletar registro: ${err}`);
+        res.send(`Erro ao deletar registro: ${err}`);
     }
 })
 
