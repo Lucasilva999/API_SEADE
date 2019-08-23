@@ -52,9 +52,9 @@
                     <th scope="row" colspan="4">{{indicador.indicador_nome}}</th>
                     <th>
                         <i class="fas fa-trash-alt fa-lg float-right ml-2 hover text-danger"
-                        data-toggle="modal" data-target="#modal_delete_{{_id}}"></i>
+                        data-toggle="modal" data-target="#modal_delete_indicador_{{_id}}"></i>
                         <i class="fas fa-edit fa-lg float-right hover text-dark" data-toggle="modal"
-                        data-target="#modal_editar_{{_id}}"></i>  
+                        data-target="#modal_editar_indicador_{{_id}}"></i>  
                     </th>
                 </tr>
                 <tr>
@@ -69,17 +69,83 @@
                     <td colspan="2">{{periodo.ano}}</td>
                     <td colspan="3">{{periodo.valor}}</td>
                     <td colspan="2">
-                        <button class="btn-danger btn-sm float-right ml-2">Excluir</button>
-                        <button class="btn-primary btn-sm float-right">Editar</button>  
+                        <button class="btn-danger btn-sm float-right ml-2"
+                        data-toggle="modal" data-target="#modal_delete_periodo_{{_id}}">Excluir</button>
+                        <button class="btn-primary btn-sm float-right"
+                        data-toggle="modal" data-target="#modal_editar_periodo_{{_id}}">Editar</button>  
                     </td>
                 </tr>
+
+                <!-- Modal de Edição Período -->
+                <div class="modal fade" id="modal_editar_periodo_{{_id}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Período</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                <div class="modal-body">
+                        <!-- Formulário de Edição Período -->
+                        <form method="POST" action="/update/periodo">
+                        <div class="form-group row">
+                            <label for="ano" class="col-sm-2 col-form-label-lg">Ano:</label>
+                            <div class="col-sm-4">
+                                <input type="text" value="{{periodo.ano}}" class="form-control" id="ano" name="ano" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="valor" class="col-sm-2 col-form-label-lg">Valor:</label>
+                            <div class="col-sm-4">
+                                <input type="text" value="{{periodo.valor}}" class="form-control" id="valor" name="valor" placeholder="">
+                            </div>
+                        </div>
+                        <input type="hidden" name="_id" id="id" value="{{_id}}"/>             
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+                    </div>
+                    </div>
+                    </form>
+                <!-- Fim do formulário de Edição Período -->
+                </div>
+                </div>
+                <!-- Fim do Modal de Edição Período -->
+
+                <!-- Modal Excluir Período -->
+                    <div id="modal_delete_periodo_{{_id}}" class="modal fade" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Deletar Período</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Tem certeza que deseja deletar esse período?</p>
+                            <p>Todas informações associadas à ele serão perdidas</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            <a href="/delete/periodo/{{_id}}" role="button" class="btn btn-primary">Deletar Indicador</a>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                <!-- Fim do Modal para Excluir Períodos -->
                 {{/each}}
             </tbody>
         </table>
             
-           <!-- Modal de Edição -->
+           <!-- Modal de Edição Indicador-->
 
-            <div class="modal fade" id="modal_editar_{{_id}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+            <div class="modal fade" id="modal_editar_indicador_{{_id}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
@@ -128,10 +194,10 @@
             </div>
             </div>
 
-            <!-- Fim do Modal de Edição -->
+            <!-- Fim do Modal de Edição Indicador -->
 
             <!-- Modal Excluir Indicadores -->
-            <div id="modal_delete_{{_id}}" class="modal fade" tabindex="-1" role="dialog">
+            <div id="modal_delete_indicador_{{_id}}" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
