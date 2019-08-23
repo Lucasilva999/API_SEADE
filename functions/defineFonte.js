@@ -6,7 +6,7 @@ function defineFonte(fonte_id) {
             fonte = 'Instituto Brasileiro de Geografia e Estatística – IBGE, Fundação Seade';
             break;
         case '2': 
-            fonte = 'Instituto Brasileiro de Geografia e Estatística – IBGE, Fundação Seade. Nota: Os dados são preliminares e sujeitos a revisão';
+            fonte = 'Instituto Brasileiro de Geografia e Estatística – IBGE, Fundação Seade.';
             break;
         case '3':
             fonte = 'Datasus';
@@ -15,10 +15,10 @@ function defineFonte(fonte_id) {
             fonte = 'Fundação SEADE';
             break;
         case '5':
-            fonte = 'http://www.mdic.gov.br/comercio-exterior/estatisticas-de-comercio-exterior/comex-vis/frame-siit';
+            fonte = 'Ministério da Economia, Indústria, Comércio Exterior - MDIC; Fundação SEADE.';
             break;
         case '6': 
-            fonte = 'IBGE/PNAD Contínua. Fundação Seade';
+            fonte = 'IBGE/PNAD/PNAD Contínua. Fundação Seade.';
             break;
         case '7':
             fonte = 'IBGE/PNAD. Fundação SEADE';
@@ -36,19 +36,10 @@ function defineFonte(fonte_id) {
             fonte = 'Secretaria da Segurança Pública do Estado de São Paulo';
             break;
         case '12': 
-            fonte = 'Qualidade de vida urbana, com moradia adequada e mobilidade';
-            break;
-        case '13': 
-            fonte = 'Secretaria do Meio Ambiente - SMA – Relatório de Qualidade Ambiental - 2018';
+            fonte = 'Secretaria do Meio Ambiente - SMA';
             break;
         case '14': 
             fonte = 'Secretaria Estadual de Energia';
-            break;
-        case '15': 
-            fonte = 'Secretaria Estadual de Energia. Balanço Energético do Estado de São Paulo - Ano Base 2016';
-            break;
-        case '16': 
-            fonte = 'Secretaria Estadual de Energia. Balanço Energético do Estado de São Paulo - Ano Base 2017';
             break;
     }
     return fonte;

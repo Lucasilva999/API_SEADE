@@ -11,7 +11,7 @@
     data-toggle="collapse" type="button" aria-expanded="false" aria-controls="collapse_{{_id}}"
     id="collapse_link_{{_id}}">
         <strong>{{oe_id}}</strong>. {{oe_desc}}
-        <i class="fas fa-times float-right fa-sm pb-3 pl-3 hover excluirRegistros"
+        <i class="fas fa-times float-right fa-sm pb-3 pl-1 hover excluirRegistros"
         data-toggle="modal" data-target="#modal_registro_{{_id}}" data-id="{{_id}}"></i>
     </button>
 
@@ -51,10 +51,8 @@
                     <th scope="row">ID: {{indicador.indicador_id}}</th>
                     <th scope="row" colspan="4">{{indicador.indicador_nome}}</th>
                     <th>
-                        <i class="fas fa-trash-alt fa-lg float-right ml-2 hover text-danger"
-                        data-toggle="modal" data-target="#modal_delete_indicador_{{_id}}"></i>
-                        <i class="fas fa-edit fa-lg float-right hover text-dark" data-toggle="modal"
-                        data-target="#modal_editar_indicador_{{_id}}"></i>  
+                        <i class="fas fa-times float-right mr-1 mb-2 hover float-right"
+                        data-toggle="modal" data-target="#modal_delete_indicador_{{_id}}"></i> 
                     </th>
                 </tr>
                 <tr>
@@ -143,7 +141,7 @@
             </tbody>
         </table>
             
-           <!-- Modal de Edição Indicador-->
+           <!-- Modal de Edição Indicador
 
             <div class="modal fade" id="modal_editar_indicador_{{_id}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -156,7 +154,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <!-- Formulário de Edição -->
+                    <!-- Formulário de Edição 
                     <form method="POST" action="/update/indicador">
                     <div class="form-group row">
                         <label for="ano" class="col-sm-2 col-form-label-lg">Ano:</label>
@@ -192,7 +190,7 @@
                 </div>
                 </form>
             </div>
-            </div>
+            </div>-->
 
             <!-- Fim do Modal de Edição Indicador -->
 

@@ -76,7 +76,7 @@ router.get('/registros', auth, async (req, res)=> {
                  })
              })
          })
-         
+
          res.render('registros.handlebars', {registros});
  
     }catch(err) {
@@ -193,17 +193,15 @@ router.get('/delete/indicador/:id', auth, async (req, res) => {
     }
 })
 
-//Rota Para Editar Variáveis
-router.post('/update', auth, async (req, res)=> {
-    let { _id, ano, valor, fonte, indicador } = req.body;
+//Rota Para Editar Períodos
+router.post('/update/periodo', auth, async (req, res)=> {
+    let { _id, ano, valor } = req.body;
     
     try {
-        const variavel = await Variavel.findOne({_id});
-        variavel.indicador = indicador;
-        variavel.fonte = fonte;
-        variavel.periodo.ano = ano;
-        variavel.periodo.valor = valor;
-        await variavel.save();
+        const periodo = await Periodo.findOne({_id});
+        periodo.ano = ano;
+        periodo.valor = valor;
+        await periodo.save();
         res.redirect('/registros');
 
     }catch(err) {
