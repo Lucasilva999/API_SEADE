@@ -46,7 +46,7 @@ router.post('/cadastro-excel', auth, async (req, res)=> {
         }, 1000);
 
     } catch(err) {
-        console.log(`Erro: ${err}`);
+        res.send(`Erro: ${err}`);
     }
 })
 
@@ -153,7 +153,7 @@ router.get('/delete/registro/:id', auth, async (req, res) => {
         res.redirect('/registros');
         
     }catch(err){
-        console.log(`Erro ao deletar registro: ${err}`);
+        res.send(`Erro ao deletar registro: ${err}`);
     }
 })
 
@@ -207,6 +207,11 @@ router.post('/update/periodo', auth, async (req, res)=> {
     }catch(err) {
         res.send(`<p>Erro: ${err}</p>`);
     }
+})
+
+//Rota Para Deletar Períodos
+router.get('/delete/periodo/:id', (req, res) => {
+
 })
 
 module.exports = router;

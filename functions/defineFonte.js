@@ -5,9 +5,6 @@ function defineFonte(fonte_id) {
         case '1':
             fonte = 'Instituto Brasileiro de Geografia e Estatística – IBGE, Fundação Seade';
             break;
-        case '2': 
-            fonte = 'Instituto Brasileiro de Geografia e Estatística – IBGE, Fundação Seade.';
-            break;
         case '3':
             fonte = 'Datasus';
             break;
