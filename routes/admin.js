@@ -76,7 +76,8 @@ router.get('/registros', auth, async (req, res)=> {
                  })
              })
          })
-        res.render('registros.handlebars', {registros});
+         
+         res.render('registros.handlebars', {registros});
  
     }catch(err) {
         res.send(`<p>Erro: ${err}</p>`);

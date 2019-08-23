@@ -1,17 +1,17 @@
 <h1 class="text-center mt-3 mb-4">Informações Registradas</h1>
 
 <div class="mb-3 text-center">
-    <a class="btn btn-info mb-4" href="/cadastro" role="button">Cadastrar Informações</a>
+    <a class="btn btn-primary mb-4" href="/cadastro" role="button">Cadastrar Informações</a>
     <a class="btn btn-secondary mb-4" href="/" role="button">Voltar</a>
 </div>
 
 <div class="list-group mb-3">
 {{#each registros}}
-    <button href="#collapse_{{_id}}" class="list-group-item list-group-item-action list-group-item-info lead"
+    <button href="#collapse_{{_id}}" class="list-group-item list-group-item-action bg-primary text-white lead"
     data-toggle="collapse" type="button" aria-expanded="false" aria-controls="collapse_{{_id}}"
     id="collapse_link_{{_id}}">
         <strong>{{oe_id}}</strong>. {{oe_desc}}
-        <i class="fas fa-times float-right fa-sm pb-3 pl-3 hover text-danger excluirRegistros"
+        <i class="fas fa-times float-right fa-sm pb-3 pl-3 hover excluirRegistros"
         data-toggle="modal" data-target="#modal_registro_{{_id}}" data-id="{{_id}}"></i>
     </button>
 
@@ -45,27 +45,45 @@
 
         {{#each indicadores as |item|}}
 
-           <li class="list-group-item list-group-item-light">
-
-                <i class="fas fa-trash-alt fa-lg float-right ml-2 hover text-danger"
-                data-toggle="modal" data-target="#modal_delete_{{_id}}"></i>
-                
-                <i class="fas fa-edit fa-lg float-right hover text-info" data-toggle="modal"
-                 data-target="#modal_editar_{{_id}}"></i>
-                
-               <p><span class="font-weight-bold">Indicador:</span>ID: {{item.indicador_id}} {{item.indicador_nome}}</p>
-               <p><span class="font-weight-bold">Fonte:</span>ID: {{item.fonte.fonte_id}}  {{item.fonte.fonte_nome}}</p>
-               <p><span class="font-weight-bold">Ano:</span>  {{item.periodo.ano}}</p>
-               <p><span class="font-weight-bold">Valor:</span>  {{item.periodo.valor}}</p>
-           </li>
-
+        <table class="table table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col">Indicador</th>
+                    <th scope="col" colspan="4">{{item.indicador_nome}}</th>
+                    <th>
+                        <i class="fas fa-trash-alt fa-lg float-right ml-2 hover text-danger"
+                        data-toggle="modal" data-target="#modal_delete_{{_id}}"></i>
+                        <i class="fas fa-edit fa-lg float-right hover text-dark" data-toggle="modal"
+                        data-target="#modal_editar_{{_id}}"></i>  
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="2" scope="col">Ano</th>
+                    <th colspan="3" scope="col">Valor</th>
+                    <th colspan="2"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each periodo as |periodo|}}
+                <tr>
+                    <td colspan="2">{{periodo.ano}}</td>
+                    <td colspan="3">{{periodo.valor}}</td>
+                    <td colspan="2">
+                        <button class="btn-danger btn-sm float-right ml-2">Excluir</button>
+                        <button class="btn-primary btn-sm float-right">Editar</button>  
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+            
            <!-- Modal de Edição -->
 
             <div class="modal fade" id="modal_editar_{{_id}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Editar Informações</h5>
+                    <h5 class="modal-title">Editar Indicador</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -118,14 +136,14 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Deletar Variável do Registro</h5>
+                    <h5 class="modal-title">Deletar Indicador {{item.indicador_id}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Tem certeza que deseja deletar essa variável do registro?</p>
-                    <p>Todas informações associadas à ela serão perdidas</p>
+                    <p>Tem certeza que deseja deletar esse indicador?</p>
+                    <p>Todas informações associadas à ele serão perdidas</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
