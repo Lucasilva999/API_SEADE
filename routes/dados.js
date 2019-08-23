@@ -49,8 +49,8 @@ router.get('/', auth, async (req, res)=> {
 router.get('/:oe_id', auth, async (req, res)=> {
     let oe_id = req.params.oe_id;
     const dataRegistro = await Registro.find({oe_id});
-    const dataIndicador = await Indicador.find({}).sort({indicador_id: "asc", "fonte.fonte_id": "asc"});
-    const dataPeriodo = await Periodo.find({});
+    const dataIndicador = await Indicador.find({}).sort({indicador_id: "asc"});
+    const dataPeriodo = await Periodo.find({}).sort({ano: "asc"});
     try {
         //Formatando a exibição de Registros, Indicadores e Períodos
         let registros = preparaRegistros(dataRegistro);
@@ -58,15 +58,16 @@ router.get('/:oe_id', auth, async (req, res)=> {
         let periodos = preparaPeriodos(dataPeriodo);
         //Inserindo os Indicadores corretos em cada Registro, e os Períodos em cada indicador
         periodos.forEach(periodo => {
-            console.log(periodo)
             indicadores.forEach(indicador => {
                 if(periodo.indicador_origem == indicador.indicador_id) {
                     delete(periodo.indicador_origem);
+                    delete(periodo._id);
                     indicador.periodo.push(periodo);
                 }
                 registros.forEach(registro => {
                     if(indicador.oe_origem == registro.oe_id) {
                         delete(indicador.oe_origem);
+                        delete(indicador._id);
                         registro.indicadores.push(indicador);
                     } 
                 })
