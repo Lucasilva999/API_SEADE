@@ -9,7 +9,8 @@ function preparaIndicadores(data) {
             indicador_nome: indicador.indicador_nome,
             fonte: {
                 fonte_id: indicador.fonte.fonte_id,
-                fonte_nome: indicador.fonte.fonte_nome
+                fonte_nome: indicador.fonte.fonte_nome,
+                nota: indicador.fonte.nota
             },
             periodo: []
         }

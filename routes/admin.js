@@ -86,7 +86,7 @@ router.get('/registros', auth, async (req, res)=> {
 
 //Rota POST que insere as informações no BD
 router.post('/cadastro', auth, async (req, res)=> {
-    let { oe_id, ano, valor, fonte_id, indicador_id } = req.body;
+    let { oe_id, ano, valor, fonte_id, indicador_id, nota } = req.body;
     let oe_desc =  defineOE(oe_id);
     let fonte_nome = defineFonte(fonte_id);
     let indicador_nome = defineIndicador(indicador_id);
@@ -104,7 +104,7 @@ router.post('/cadastro', auth, async (req, res)=> {
             } else {
                 //Caso Indicador não esteja cadastrado
                 let periodo = await Periodo.create({"indicador_origem": indicador_id, ano, valor});
-                let indicadores = await Indicador.create({"oe_origem": oe_id, indicador_id, indicador_nome, fonte: {fonte_id, fonte_nome}, periodo});
+                let indicadores = await Indicador.create({"oe_origem": oe_id, indicador_id, indicador_nome, fonte: {fonte_id, fonte_nome, nota}, periodo});
                 await Registro.findOneAndUpdate({oe_id}, {$push: {indicadores}}, {new: true});
                 res.render('cadastro.handlebars');
             }
@@ -119,7 +119,7 @@ router.post('/cadastro', auth, async (req, res)=> {
             } else {
                 //Caso Indicador não esteja cadastrado
                 let periodo = await Periodo.create({"indicador_origem": indicador_id, ano, valor});
-                let indicadores = await Indicador.create({"oe_origem": oe_id, indicador_id, indicador_nome, fonte: {fonte_id, fonte_nome}, periodo});
+                let indicadores = await Indicador.create({"oe_origem": oe_id, indicador_id, indicador_nome, fonte: {fonte_id, fonte_nome, nota}, periodo});
                 await Registro.create({ oe_id, oe_desc, indicadores });
                 res.render('cadastro.handlebars');
             }
@@ -223,6 +223,7 @@ router.get('/delete/periodo/:id', async (req, res) => {
         })
         await Periodo.deleteOne({"_id": req.params.id});
         res.redirect('/registros');
+
     }catch(err) {
         res.send(`Erro: ${err}`);
     }

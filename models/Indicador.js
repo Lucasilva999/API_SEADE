@@ -22,6 +22,11 @@ const IndicadorSchema = new mongoose.Schema({
         fonte_nome: {
             type: String,
             required: true
+        },
+        nota: {
+            type: String,
+            required: false,
+            default: null
         }
     },
     periodo: [{

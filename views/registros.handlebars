@@ -42,14 +42,16 @@
 
     <div class="collapse" id="collapse_{{_id}}">
         <div class="list-group">
-
+        <table class="table table-striped">
         {{#each indicadores as |indicador|}}
 
-        <table class="table table-striped">
+        
             <thead>
                 <tr class="table-primary">
-                    <th scope="row">ID: {{indicador.indicador_id}}</th>
-                    <th scope="row" colspan="4">{{indicador.indicador_nome}}</th>
+                    <th scope="col">ID: {{indicador.indicador_id}}</th>
+                    <th scope="col" colspan="4">
+                        {{indicador.indicador_nome}}
+                    </th>
                     <th>
                         <i class="fas fa-times float-right mr-1 mb-2 hover float-right"
                         data-toggle="modal" data-target="#modal_delete_indicador_{{_id}}"></i> 
@@ -58,20 +60,20 @@
                 <tr>
                     <th colspan="2" scope="col">Ano</th>
                     <th colspan="3" scope="col">Valor</th>
-                    <th colspan="2"></th>
                 </tr>
             </thead>
             <tbody>
                 {{#each periodo as |periodo|}}
                 <tr>
                     <td colspan="2">{{periodo.ano}}</td>
-                    <td colspan="3">{{periodo.valor}}</td>
-                    <td colspan="2">
-                        <button class="btn-danger btn-sm float-right ml-2"
+                    <td colspan="2">{{periodo.valor}}</td>
+                    <td colspan="3"><button class="btn-primary btn-sm float-right ml-2 my-1"
+                    data-toggle="modal" data-target="#modal_editar_periodo_{{_id}}">Editar</button> 
+                    
+                    <button class="btn-danger btn-sm float-right my-1"
                         data-toggle="modal" data-target="#modal_delete_periodo_{{_id}}">Excluir</button>
-                        <button class="btn-primary btn-sm float-right"
-                        data-toggle="modal" data-target="#modal_editar_periodo_{{_id}}">Editar</button>  
                     </td>
+                    
                 </tr>
 
                 <!-- Modal de Edição Período -->
@@ -137,62 +139,10 @@
                     </div>
                     </div>
                 <!-- Fim do Modal para Excluir Períodos -->
-                {{/each}}
+            {{/each}}
             </tbody>
-        </table>
+        
             
-           <!-- Modal de Edição Indicador
-
-            <div class="modal fade" id="modal_editar_indicador_{{_id}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Editar Indicador</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <!-- Formulário de Edição 
-                    <form method="POST" action="/update/indicador">
-                    <div class="form-group row">
-                        <label for="ano" class="col-sm-2 col-form-label-lg">Ano:</label>
-                        <div class="col-sm-4">
-                            <input type="text" value="{{indicador.periodo.ano}}" class="form-control" id="ano" name="ano" placeholder="">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="valor" class="col-sm-2 col-form-label-lg">Valor:</label>
-                        <div class="col-sm-4">
-                            <input type="text" value="{{indicador.periodo.valor}}" class="form-control" id="valor" name="valor" placeholder="">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="fonte" class="col-sm-2 col-form-label-lg">Fonte:</label>
-                        <div class="col-sm-8">
-                            <input type="text" value="{{indicador.fonte}}" class="form-control" id="fonte" name="fonte" placeholder="">
-                        </div>
-                    </div>
-
-                    <label for="indicador" class="col-form-label-lg">Indicador:</label>
-                    <div>
-                        <textarea class="form-control" id="indicador" name="indicador" placeholder="" rows="3" cols="30"
-                        style="resize:none">{{indicador.indicador}}</textarea>
-                    </div>
-                    <input type="hidden" name="_id" id="id" value="{{_id}}"/>             
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-primary">Salvar mudanças</button>
-                </div>
-                </div>
-                </form>
-            </div>
-            </div>-->
-
-            <!-- Fim do Modal de Edição Indicador -->
 
             <!-- Modal Excluir Indicadores -->
             <div id="modal_delete_indicador_{{_id}}" class="modal fade" tabindex="-1" role="dialog">
@@ -220,6 +170,7 @@
         <!-- Fim do Modal para Excluir Indicadores -->
 
         {{/each}}
+        </table>
         </div>
     </div>
 {{/each}}
