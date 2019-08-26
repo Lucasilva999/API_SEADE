@@ -210,8 +210,22 @@ router.post('/update/periodo', auth, async (req, res)=> {
 })
 
 //Rota Para Deletar Períodos
-router.get('/delete/periodo/:id', (req, res) => {
-
+router.get('/delete/periodo/:id', async (req, res) => {
+    try {
+        const indicadores = await Indicador.find({});
+        indicadores.forEach(indicador => {
+            indicador.periodo.forEach(async periodo => {
+                if(periodo == req.params.id) {
+                    await Indicador.findOneAndUpdate({periodo: req.params.id}, 
+                    {$pull: {periodo: req.params.id}}, {new: true});
+                }
+            })
+        })
+        await Periodo.deleteOne({"_id": req.params.id});
+        res.redirect('/registros');
+    }catch(err) {
+        res.send(`Erro: ${err}`);
+    }
 })
 
 module.exports = router;
