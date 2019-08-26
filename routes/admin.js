@@ -15,6 +15,22 @@ const insereDadosExcel = require('../functions/insereDadosExcel');
 const criarTokenUsuario = require('../functions/criarTokenUsuario');
 //Importando Middleware
 const auth = require('../middlewares/auth');
+//Importando Dependências para manuseio dos arquivos XLSX
+const xlsx = require('xlsx');
+const multer = require('multer');
+const path = require('path');
+
+//Configuração do Multer para armazenamento dos arquivos XLSX
+const storage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, 'uploads/');
+    },
+    filename: (req, file, callback) => {
+        callback(null, 'file.xlsx');
+    }
+});
+
+const upload = multer({storage});
 
 //Rota geral Admin
 router.get('/', (req, res)=> {
@@ -35,7 +51,14 @@ router.get('/cadastro-excel', auth, (req, res)=> {
 })
 
 //Rota POST para inserir as informações no BD
-router.post('/cadastro-excel', auth, async (req, res)=> {
+router.post('/cadastro-excel', auth, upload.single('excel'), async (req, res)=> {
+
+    let file = xlsx.readFile(path.join(__dirname, '../', 'uploads', 'file.xlsx'), {cellDates: true});
+    file = file.Sheets["Indicadores"];
+    let data = xlsx.utils.sheet_to_json(file);
+    res.send(data);
+    
+    /*
     let txt = req.body.txtArea;
     txt = preparaDadosExcel(txt);
 
@@ -47,7 +70,7 @@ router.post('/cadastro-excel', auth, async (req, res)=> {
 
     } catch(err) {
         res.send(`Erro: ${err}`);
-    }
+    }*/
 })
 
 //Página para visualização de informações cadastradas
