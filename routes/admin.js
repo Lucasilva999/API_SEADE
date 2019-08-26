@@ -53,10 +53,10 @@ router.get('/cadastro-excel', auth, (req, res)=> {
 //Rota POST para inserir as informações no BD
 router.post('/cadastro-excel', auth, upload.single('excel'), async (req, res)=> {
 
-    let file = xlsx.readFile(path.join(__dirname, '../', 'uploads', 'file.xlsx'), {cellDates: true});
+    let file = xlsx.readFile(path.join(__dirname, '../', 'uploads', 'file.xlsx'));
     file = file.Sheets["Indicadores"];
     let data = xlsx.utils.sheet_to_json(file);
-    res.send(data);
+    insereDadosExcel(data);
     
     /*
     let txt = req.body.txtArea;
