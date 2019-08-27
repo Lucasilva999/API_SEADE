@@ -1,26 +1,11 @@
 //Importanto Express Router
 const router = require('express').Router();
-
 //Importando Middleware
 const auth = require('../middlewares/auth');
-
-//Importando Multer
-const multer = require('multer');
-
 //Importando Controller
 const adminController = require('../controllers/admin');
-
-//Configuração do Multer para armazenamento dos arquivos XLSX
-const storage = multer.diskStorage({
-    destination: (req, file, callback) => {
-        callback(null, 'uploads/');
-    },
-    filename: (req, file, callback) => {
-        callback(null, 'file.xlsx');
-    }
-});
-
-const upload = multer({storage});
+//Importando Multer
+const multer = require('../controllers/multer');
 
 
 //Rota geral Admin
@@ -29,17 +14,17 @@ router.get('/', adminController.getAdminIndex);
 //Página para cadastro de informações
 router.get('/cadastro', auth, adminController.getCadastro);
 
+//Rota POST que insere as informações no BD
+router.post('/cadastro', auth, adminController.postCadastro);
+
 //Página de Cadastro de Informações pelo Excel
 router.get('/cadastro-excel', auth, adminController.getCadastroExcel);
 
 //Rota POST para inserir as informações no BD
-router.post('/cadastro-excel', auth, upload.single('excel'), adminController.postCadastroExcel);
+router.post('/cadastro-excel', auth, multer.upload.single('excel'), adminController.postCadastroExcel);
 
 //Página para visualização de informações cadastradas
 router.get('/registros', auth, adminController.getRegistros);
-
-//Rota POST que insere as informações no BD
-router.post('/cadastro', auth, adminController.postCadastro);
 
 //Rota para deletar Registros
 router.get('/delete/registro/:id', auth, adminController.getDeleteRegistro);
