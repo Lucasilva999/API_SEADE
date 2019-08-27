@@ -10,7 +10,6 @@ const preparaPeriodos = require('../functions/preparaPeriodosAPI');
 const defineOE = require('../functions/defineOE');
 const defineFonte = require('../functions/defineFonte');
 const defineIndicador = require('../functions/defineIndicador');
-const preparaDadosExcel = require('../functions/preparaDadosExcel');
 const insereDadosExcel = require('../functions/insereDadosExcel');
 const criarTokenUsuario = require('../functions/criarTokenUsuario');
 //Importando Middleware
@@ -31,6 +30,9 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({storage});
+
+
+//Rotas
 
 //Rota geral Admin
 router.get('/', (req, res)=> {
@@ -57,20 +59,8 @@ router.post('/cadastro-excel', auth, upload.single('excel'), async (req, res)=> 
     file = file.Sheets["Indicadores"];
     let data = xlsx.utils.sheet_to_json(file);
     insereDadosExcel(data);
+    res.redirect('/cadastro-excel');
     
-    /*
-    let txt = req.body.txtArea;
-    txt = preparaDadosExcel(txt);
-
-    try {
-        insereDadosExcel(txt);
-        setTimeout(()=> {
-            res.redirect('/dados');
-        }, 1000);
-
-    } catch(err) {
-        res.send(`Erro: ${err}`);
-    }*/
 })
 
 //Página para visualização de informações cadastradas

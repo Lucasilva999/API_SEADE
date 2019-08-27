@@ -38,6 +38,9 @@ function defineFonte(fonte_id) {
         case '14': 
             fonte = 'Secretaria Estadual de Energia';
             break;
+        default:
+            fonte = 'Oops, algo de errado aconteceu na inserção...';
+            break;
     }
     return fonte;
 }

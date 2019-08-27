@@ -23,6 +23,9 @@ function defineOE(oe_num) {
         case '8': 
             oe = 'Desenvolvimento sustentável preservando o meio ambiente e protegendo a população frente aos desastres naturais';
             break;
+        default:
+            oe = 'Oops, algo de errado aconteceu na inserção...';
+            break;
     }
     return oe;
 }

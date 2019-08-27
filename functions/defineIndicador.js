@@ -74,6 +74,9 @@ function defineIndicador(indicador_id) {
         case '24': 
             indicador = 'Óbitos de Acidentes Relacionadas a Desastres Naturais (óbitos mais pessoas desaparecidas)';
             break;
+        default:
+            indicador = 'Oops, algo de errado aconteceu na inserção...';
+            break;
     }
     return indicador;
 }
