@@ -1,11 +1,12 @@
+//Importando Models
 const Registro = require('../models/Registro');
 const Indicador = require('../models/Indicador');
 const Periodo = require('../models/Periodo');
 
+//Impotando Funções
 const defineOE = require('../functions/defineOE');
 const defineIndicador = require('../functions/defineIndicador');
 const defineFonte = require('../functions/defineFonte');
-
 
 //Insere no Banco de Dados os dados recebidos no Array de Objetos passado no Parâmetro 
 async function insereDadosExcel(data) {
