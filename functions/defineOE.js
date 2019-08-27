@@ -24,7 +24,7 @@ function defineOE(oe_num) {
             oe = 'Desenvolvimento sustentável preservando o meio ambiente e protegendo a população frente aos desastres naturais';
             break;
         default:
-            oe = 'Oops, algo de errado aconteceu na inserção...';
+            oe = 'Oops, algo de errado aconteceu na inserção, remova o registro e o insira novamente...';
             break;
     }
     return oe;

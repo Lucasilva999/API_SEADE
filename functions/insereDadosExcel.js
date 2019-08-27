@@ -16,6 +16,7 @@ async function insereDadosExcel(data) {
         let indicador_nome = defineIndicador(indicador_id.toString());
         let fonte_nome = defineFonte(fonte_id.toString());
         if(!nota) nota = null;
+        valor = Number(valor.toFixed(2));
          
         let findOE = await Registro.find({oe_id});
         let findIndicador = await Indicador.find({indicador_id});

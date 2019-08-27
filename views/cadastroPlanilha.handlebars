@@ -1,10 +1,14 @@
 <h1 class="text-center mt-3 mb-5">Cadastrar Dados de Planilha</h1>
 
-<form method="POST" action="/cadastro-excel" enctype="multipart/form-data">
-  <div class="form-group mt-4">
-    <label for="excel">Insirer arquivo .XLSX</label>
-    <input type="file" class="form-control-file" id="excel" name="excel">
-  </div>
-   <button class="btn btn-primary mb-3" type="submit">Enviar</button>
-   <a class="btn btn-secondary mb-3" href="/cadastro" role="button">Voltar</a>
-</form>
+<div class="d-flex justify-content-center mt-4">
+    <form method="POST" action="/cadastro-excel" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="excel">Inserir arquivo .XLSX</label>
+      <input type="file" class="form-control-file" id="excel" name="excel">
+    </div>
+    <button class="btn btn-primary mb-3" type="submit">Enviar</button>
+    <a class="btn btn-secondary mb-3" href="/cadastro" role="button">Voltar</a>
+  </form>
+</div>
+
+

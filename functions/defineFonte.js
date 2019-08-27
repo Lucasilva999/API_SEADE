@@ -39,7 +39,7 @@ function defineFonte(fonte_id) {
             fonte = 'Secretaria Estadual de Energia';
             break;
         default:
-            fonte = 'Oops, algo de errado aconteceu na inserção...';
+            fonte = 'Oops, algo de errado aconteceu na inserção, remova o registro e o insira novamente...';
             break;
     }
     return fonte;
